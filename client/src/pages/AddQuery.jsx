@@ -7,7 +7,7 @@ import toast from 'react-hot-toast'
 import axios from 'axios'
 import useAuth from '../hooks/useAuth'
 
-const AddProduct = () => {
+const AddQuery = () => {
   const { user } = useAuth()
   const navigate = useNavigate()
 
@@ -16,33 +16,34 @@ const AddProduct = () => {
   const handleFormSubmit = async e => {
     e.preventDefault()
     const form = e.target
-    const queryTitle = form.queryTitle.value
+    const query_title = form.query_title.value
     const email = form.email.value
-    const datePosted = datePosted
-    const productName = form.productName.value
-    const alterationReason = parseFloat(form.alterationReason.value)
+    const category = form.category.value
+    const min_price = parseFloat(form.min_price.value)
     const max_price = parseFloat(form.max_price.value)
-    const productData = {
-      queryTitle,
-      datePosted,
-      productName,
-      alterationReason,
+    const description = form.description.value
+    const queryData = {
+      query_title,
+      category,
+      min_price,
       max_price,
-      userInfo: {
+      description,
+      buyer: {
         email,
         name: user?.displayName,
-        thumbnailImage: user?.photoURL,
+        photo: user?.photoURL,
+        datePosted: startDate,
       },
       bid_count: 0,
     }
     try {
       const { data } = await axios.post(
-        `${import.meta.env.VITE_API_URL}/job`,
-        productData
+        `${import.meta.env.VITE_API_URL}/query`,
+        queryData
       )
       console.log(data)
-      toast.success('Job Data Updated Successfully!')
-      navigate('/my-posted-jobs')
+      toast.success('Query Data Updated Successfully!')
+      navigate('/my-query')
     } catch (err) {
       console.log(err)
     }
@@ -51,18 +52,18 @@ const AddProduct = () => {
     <div className='flex justify-center items-center min-h-[calc(100vh-306px)] my-12'>
       <section className=' p-2 md:p-6 mx-auto bg-white rounded-md shadow-md '>
         <h2 className='text-lg font-semibold text-gray-700 capitalize '>
-          Post a Job
+          Add a query
         </h2>
 
         <form onSubmit={handleFormSubmit}>
           <div className='grid grid-cols-1 gap-6 mt-4 sm:grid-cols-2'>
             <div>
               <label className='text-gray-700 ' htmlFor='job_title'>
-                Job Title
+                Query Title
               </label>
               <input
-                id='job_title'
-                name='job_title'
+                id='query_title'
+                name='query_title'
                 type='text'
                 className='block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md  focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40  focus:outline-none focus:ring'
               />
@@ -82,7 +83,7 @@ const AddProduct = () => {
               />
             </div>
             <div className='flex flex-col gap-2 '>
-              <label className='text-gray-700'>Deadline</label>
+              <label className='text-gray-700'>Current Date</label>
 
               {/* Date Picker Input Field */}
               <DatePicker
@@ -101,9 +102,9 @@ const AddProduct = () => {
                 id='category'
                 className='border p-2 rounded-md'
               >
-                <option value='Web Development'>Web Development</option>
-                <option value='Graphics Design'>Graphics Design</option>
-                <option value='Digital Marketing'>Digital Marketing</option>
+                <option value='Electronics'>Electronics</option>
+                <option value='Mobile'>Mobile</option>
+                <option value='Television'>Television</option>
               </select>
             </div>
             <div>
@@ -151,4 +152,4 @@ const AddProduct = () => {
   )
 }
 
-export default AddProduct;
+export default AddQuery

@@ -50,14 +50,14 @@ const Login = () => {
       //User Login
       const result = await signIn(email, pass)
       console.log(result.user)
-      // const { data } = await axios.post(
-      //   `${import.meta.env.VITE_API_URL}/jwt`,
-      //   {
-      //     email: result?.user?.email,
-      //   },
-      //   { withCredentials: true }
-      // )
-      // console.log(data)
+      const { data } = await axios.post(
+        `${import.meta.env.VITE_API_URL}/jwt`,
+        {
+          email: result?.user?.email,
+        },
+        { withCredentials: true }
+      )
+      console.log(data)
       navigate(from, { replace: true })
       toast.success('Signin Successful')
     } catch (err) {
@@ -66,6 +66,7 @@ const Login = () => {
     }
   }
   if (user || loading) return
+  
   return (
     <div className='flex justify-center items-center min-h-[calc(100vh-306px)] my-12'>
       <div className='flex w-full max-w-sm mx-auto overflow-hidden bg-white rounded-lg shadow-lg  lg:max-w-4xl '>

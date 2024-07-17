@@ -8,6 +8,7 @@ import PrivateRoute from './PrivateRoute'
 import ProductDetails from '../components/ProductDetails'
 import UpdateProduct from '../pages/UpdateProduct'
 import Queries from '../components/Queries'
+import AddQuery from '../pages/AddQuery'
 const router = createBrowserRouter([
   {
     path: '/',
@@ -33,10 +34,13 @@ const router = createBrowserRouter([
         loader: ()=>fetch('https://b9a11-server-side-sohel-dewan.vercel.app/products')
       },
       {
+        path: '/add-query',
+        element: <PrivateRoute><AddQuery /></PrivateRoute> ,
+      },
+      {
         path: '/products/:id',
         element: <PrivateRoute><ProductDetails /></PrivateRoute>,
-        loader: ({ params }) =>fetch(`${import.meta.env.VITE_API_URL}/products/${params.id}`)
-        
+        loader: ({ params }) =>fetch(`${import.meta.env.VITE_API_URL}/products/${params.id}`)        
       },
       {
         path: '/update/:id',

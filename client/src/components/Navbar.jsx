@@ -57,7 +57,7 @@ const Navbar = () => {
                   <Link to="/recom-me">Recommendations For Me</Link>
                 </li>
                 <li>
-                  <Link to="/my-queries">My Queries</Link>
+                  <Link to="/add-query">Add Queries</Link>
                 </li>
                 <li>
                   <Link to="/my-recom">My recommendations</Link>
@@ -100,7 +100,7 @@ const Navbar = () => {
                 <Link to="/recom-me">Recommendations For Me</Link>
               </li>
               <li>
-                <Link to="/my-queries">My Queries</Link>
+              <Link to="/add-query">Add Queries</Link>
               </li>
               <li>
                 <Link to="/my-recom">My recommendations</Link>

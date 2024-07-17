@@ -5,9 +5,10 @@
       "productName": "Samsung",
       "brandName": "Samsung Galaxy",
       "alterationReason": "Better features and price",
-      "datePosted": "2024-05-12",
       "userInfo": {
+        "datePosted": "2024-05-12",
         "name": "John Doe",
+        "email": "john@example.com",
         "thumbnailImage": "https://i.ibb.co/D7Xth3H/user1.jpg"
       }
     },
@@ -17,9 +18,10 @@
       "productName": "Product D",
       "brandName": "Brand Y",
       "alterationReason": "Higher quality",
-      "datePosted": "2024-05-11",
       "userInfo": {
+        "datePosted": "2024-05-11",
         "name": "Jane Smith",
+        "email": "jane@example.com",
         "thumbnailImage": "https://i.ibb.co/WBh0tHg/user2.jpg"
       }
     },
@@ -29,9 +31,10 @@
       "productName": "watch",
       "brandName": "Liege",
       "alterationReason": "Improved customer support",
-      "datePosted": "2024-05-10",
       "userInfo": {
+        "datePosted": "2024-05-10",
         "name": "Alex Brown",
+        "email": "alex@mail.com",
         "thumbnailImage": "https://i.ibb.co/fD2qmtQ/user3.jpg"
       }
     },
@@ -41,9 +44,10 @@
       "productName": "motor-Bike G",
       "brandName": "Honda",
       "alterationReason": "Sustainable materials",
-      "datePosted": "2024-05-09",
       "userInfo": {
+        "datePosted": "2024-05-09",
         "name": "Eva Green",
+        "email": "eva@mail.com",
         "thumbnailImage": "https://i.ibb.co/LhJyJ1g/user4.jpg"
       }
     },
@@ -53,9 +57,10 @@
       "productName": "earbuds",
       "brandName": "Samsung",
       "alterationReason": "Improved customer support",
-      "datePosted": "2024-05-10",
       "userInfo": {
+        "datePosted": "2024-05-10",
         "name": "Lina Brown",
+        "email": "lina@mail.com",
         "thumbnailImage": "https://i.ibb.co/pK1GLxR/user5.png"
       }
     },
@@ -65,9 +70,10 @@
       "productName": "tv",
       "brandName": "Samsung",
       "alterationReason": "Sustainable materials",
-      "datePosted": "2024-05-09",
       "userInfo": {
+        "datePosted": "2024-05-09",
         "name": "Lora Green",
+        "email": "lora@mail.com",
         "thumbnailImage": "https://i.ibb.co/SKpYxCm/user6.jpg"
       }
     }
