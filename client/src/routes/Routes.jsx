@@ -9,6 +9,7 @@ import ProductDetails from '../components/ProductDetails'
 import UpdateProduct from '../pages/UpdateProduct'
 import Queries from '../components/Queries'
 import AddQuery from '../pages/AddQuery'
+import MyQueries from '../pages/MyQueries'
 const router = createBrowserRouter([
   {
     path: '/',
@@ -36,6 +37,10 @@ const router = createBrowserRouter([
       {
         path: '/add-query',
         element: <PrivateRoute><AddQuery /></PrivateRoute> ,
+      },
+      {
+        path: '/my-query',
+        element: <PrivateRoute><MyQueries /></PrivateRoute> ,
       },
       {
         path: '/products/:id',

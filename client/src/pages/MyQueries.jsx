@@ -1,27 +1,26 @@
 import { useEffect, useState } from 'react'
-
 import { Link } from 'react-router-dom'
 import toast from 'react-hot-toast'
 import useAxiosSecure from '../hooks/useAxiosSecure'
 import useAuth from '../hooks/useAuth'
 
-const MyPostedJobs = () => {
+const MyQueries = () => {
   const axiosSecure = useAxiosSecure()
   const { user } = useAuth()
-  const [jobs, setJobs] = useState([])
+  const [products, setProducts] = useState([])
 
   useEffect(() => {
     getData()
   }, [user])
 
   const getData = async () => {
-    const { data } = await axiosSecure(`/jobs/${user?.email}`)
-    setJobs(data)
+    const { data } = await axiosSecure(`/products/${user?.email}`)
+    setProducts(data)
   }
 
   const handleDelete = async id => {
     try {
-      const { data } = await axiosSecure.delete(`/job/${id}`)
+      const { data } = await axiosSecure.delete(`/product/${id}`)
       console.log(data)
       toast.success('Delete Successful')
 
@@ -35,10 +34,10 @@ const MyPostedJobs = () => {
   return (
     <section className='container px-4 mx-auto pt-12'>
       <div className='flex items-center gap-x-3'>
-        <h2 className='text-lg font-medium text-gray-800 '>My Posted Jobs</h2>
+        <h2 className='text-lg font-medium text-gray-800 '>My Posted Queries</h2>
 
         <span className='px-3 py-1 text-xs text-blue-600 bg-blue-100 rounded-full '>
-          {jobs.length} Job
+          {products.length} Products
         </span>
       </div>
 
@@ -62,7 +61,7 @@ const MyPostedJobs = () => {
                       scope='col'
                       className='px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500'
                     >
-                      <span>Deadline</span>
+                      <span>Current Date</span>
                     </th>
 
                     <th
@@ -93,47 +92,47 @@ const MyPostedJobs = () => {
                   </tr>
                 </thead>
                 <tbody className='bg-white divide-y divide-gray-200 '>
-                  {jobs.map(job => (
-                    <tr key={job._id}>
+                  {products.map(prod => (
+                    <tr key={prod._id}>
                       <td className='px-4 py-4 text-sm text-gray-500  whitespace-nowrap'>
-                        {job.job_title}
+                        {prod.query_title}
                       </td>
 
                       <td className='px-4 py-4 text-sm text-gray-500  whitespace-nowrap'>
-                        {new Date(job.deadline).toLocaleDateString()}
+                        {new Date(prod.currentDate).toLocaleDateString()}
                       </td>
 
                       <td className='px-4 py-4 text-sm text-gray-500  whitespace-nowrap'>
-                        ${job.min_price}-${job.max_price}
+                        ${prod.min_price}-${prod.max_price}
                       </td>
                       <td className='px-4 py-4 text-sm whitespace-nowrap'>
                         <div className='flex items-center gap-x-2'>
                           <p
                             className={`px-3 py-1 ${
-                              job.category === 'Web Development' &&
+                              prod.category === 'Electronic' &&
                               'text-blue-500 bg-blue-100/60'
                             } ${
-                              job.category === 'Graphics Design' &&
+                              prod.category === 'Mobile' &&
                               'text-emerald-500 bg-emerald-100/60'
                             } ${
-                              job.category === 'Digital Marketing' &&
+                              prod.category === 'Television' &&
                               'text-pink-500 bg-pink-100/60'
                             } text-xs  rounded-full`}
                           >
-                            {job.category}
+                            {prod.category}
                           </p>
                         </div>
                       </td>
                       <td
-                        title={job.description}
+                        title={prod.description}
                         className='px-4 py-4 text-sm text-gray-500  whitespace-nowrap'
                       >
-                        {job.description.substring(0, 18)}...
+                        {prod.description.substring(0, 18)}...
                       </td>
                       <td className='px-4 py-4 text-sm whitespace-nowrap'>
                         <div className='flex items-center gap-x-6'>
                           <button
-                            onClick={() => handleDelete(job._id)}
+                            onClick={() => handleDelete(prod._id)}
                             className='text-gray-500 transition-colors duration-200   hover:text-red-500 focus:outline-none'
                           >
                             <svg
@@ -153,7 +152,7 @@ const MyPostedJobs = () => {
                           </button>
 
                           <Link
-                            to={`/update/${job._id}`}
+                            to={`/update/${prod._id}`}
                             className='text-gray-500 transition-colors duration-200   hover:text-yellow-500 focus:outline-none'
                           >
                             <svg
@@ -185,4 +184,4 @@ const MyPostedJobs = () => {
   )
 }
 
-export default MyPostedJobs
+export default MyQueries

@@ -12,13 +12,13 @@ const UpdateProduct = () => {
   const job = useLoaderData()
   const {
     _id,
-    job_title,
-    deadline,
+    query_title,
+    // deadline,
     category,
     min_price,
     max_price,
     description,
-  } = job || {}
+  } = prod || {}
   const { user } = useContext(AuthContext)
   const [startDate, setStartDate] = useState(new Date(deadline) || new Date())
   const handleFormSubmit = async e => {
