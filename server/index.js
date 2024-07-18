@@ -86,15 +86,15 @@ async function run() {
           .send({ success: true })
       })
       
-      // Get products
+      // Get all products
     app.get('/products', async (req, res) => {
       const products = await productCollection.find().toArray();
       res.send(products);
     })
     
-    // Get a product by id
+    // Get a single product by id
     
-    app.get('/products/:id', async (req, res) => {
+    app.get('/product/:id', async (req, res) => {
       const id = req.params.id;
       const quary = {_id: new ObjectId(id)};
       const result = await productCollection.findOne(quary);
@@ -103,13 +103,38 @@ async function run() {
       //     projection: { queryTitle: 1, userInfo: 1, productImage: 1, datePosted:1 },
       // };
   })
+   // Save a product data in db
+   app.post('/product', async (req, res) => {
+    const jobData = req.body
+    const result = await jobsCollection.insertOne(jobData)
+    res.send(result)
+  })
+
+  // get all products posted by a specific user
+  app.get('/products/:email', verifyToken, async (req, res) => {
+    const tokenEmail = req.user.email
+    const email = req.params.email
+    if (tokenEmail !== email) {
+      return res.status(403).send({ message: 'forbidden access' })
+    }
+    const query = { 'buyer.email': email }
+    const result = await jobsCollection.find(query).toArray()
+    res.send(result)
+  })
     // Save a query data in db
-    app.post('/query', async (req, res) => {
+    app.post('/product', async (req, res) => {
       const queryData = req.body
 
       const result = await productCollection.insertOne(queryData)
       res.send(result)
     })
+      // delete a product data from db
+      app.delete('/product/:id', async (req, res) => {
+        const id = req.params.id
+        const query = { _id: new ObjectId(id) }
+        const result = await productCollection.deleteOne(query)
+        res.send(result)
+      })
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
     console.log("Pinged your deployment. You successfully connected to MongoDB!");
