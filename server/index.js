@@ -1,5 +1,7 @@
 const express = require('express');
 const cors = require('cors');
+const jwt = require('jsonwebtoken');
+const cookieParser = require('cookie-parser');
 require('dotenv').config()
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 
@@ -19,10 +21,10 @@ const corsOptions = {
 
 app.use(cors(corsOptions))
 app.use(express.json())
-// app.use(cookieParser())
+app.use(cookieParser())
 // check if the server is running
 
-const uri = `mongodb+srv://alternativeProducts:OKMI2REQrXtrot6o@cluster0.i2cqtwl.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`
+const uri = `mongodb+srv://${process.env.USER_DB}:${process.env.USER_PASS}@cluster0.i2cqtwl.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`
 
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
 const client = new MongoClient(uri, {
@@ -32,6 +34,23 @@ const client = new MongoClient(uri, {
     deprecationErrors: true,
   }
 });
+// verify jwt middleware
+const verifyToken = (req, res, next) => {
+  const token = req.cookies?.token
+  if (!token) return res.status(401).send({ message: 'unauthorized access' })
+  if (token) {
+    jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, decoded) => {
+      if (err) {
+        console.log(err)
+        return res.status(401).send({ message: 'unauthorized access' })
+      }
+      console.log(decoded)
+
+      req.user = decoded
+      next()
+    })
+  }
+}
 
 async function run() {
   try {
@@ -40,10 +59,40 @@ async function run() {
 
     const productCollection = client.db('alternativeProducts').collection('products');
 
+      // jwt generate
+      app.post('/jwt', async (req, res) => {
+        const email = req.body
+        const token = jwt.sign(email, process.env.ACCESS_TOKEN_SECRET, {
+          expiresIn: '36d',
+        })
+        res
+          .cookie('token', token, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'strict',
+          })
+          .send({ success: true })
+      })
+  
+      // Clear token on logout
+      app.get('/logout', (req, res) => {
+        res
+          .clearCookie('token', {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'strict',
+            maxAge: 0,
+          })
+          .send({ success: true })
+      })
+      
+      // Get products
     app.get('/products', async (req, res) => {
       const products = await productCollection.find().toArray();
       res.send(products);
     })
+    
+    // Get a product by id
     
     app.get('/products/:id', async (req, res) => {
       const id = req.params.id;
@@ -54,6 +103,13 @@ async function run() {
       //     projection: { queryTitle: 1, userInfo: 1, productImage: 1, datePosted:1 },
       // };
   })
+    // Save a query data in db
+    app.post('/query', async (req, res) => {
+      const queryData = req.body
+
+      const result = await productCollection.insertOne(queryData)
+      res.send(result)
+    })
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
     console.log("Pinged your deployment. You successfully connected to MongoDB!");
