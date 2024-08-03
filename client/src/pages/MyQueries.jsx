@@ -11,16 +11,17 @@ const MyQueries = () => {
 
   useEffect(() => {
     getData()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user])
 
   const getData = async () => {
-    const { data } = await axiosSecure(`/products/${user?.email}`)
+    const { data } = await axiosSecure(`${import.meta.env.VITE_API_URL}/products/${user?.email}`)
     setProducts(data)
   }
 
   const handleDelete = async id => {
     try {
-      const { data } = await axiosSecure.delete(`/product/${id}`)
+      const { data } = await axiosSecure.delete(`${import.meta.env.VITE_API_URL}/product${id}`)
       console.log(data)
       toast.success('Delete Successful')
 
@@ -53,7 +54,7 @@ const MyQueries = () => {
                       className='py-3.5 px-4 text-sm font-normal text-left rtl:text-right text-gray-500'
                     >
                       <div className='flex items-center gap-x-3'>
-                        <span>Title</span>
+                        <span>Query Title</span>
                       </div>
                     </th>
 
@@ -61,7 +62,7 @@ const MyQueries = () => {
                       scope='col'
                       className='px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500'
                     >
-                      <span>Current Date</span>
+                      <span>Date Posted</span>
                     </th>
 
                     <th
@@ -69,7 +70,7 @@ const MyQueries = () => {
                       className='px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500'
                     >
                       <button className='flex items-center gap-x-2'>
-                        <span>Price Range</span>
+                        <span>Product Name</span>
                       </button>
                     </th>
 
@@ -77,13 +78,13 @@ const MyQueries = () => {
                       scope='col'
                       className='px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500'
                     >
-                      Category
+                      Brand Name
                     </th>
                     <th
                       scope='col'
                       className='px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500'
                     >
-                      Description
+                      Alteration Reason
                     </th>
 
                     <th className='px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500'>
@@ -99,35 +100,35 @@ const MyQueries = () => {
                       </td>
 
                       <td className='px-4 py-4 text-sm text-gray-500  whitespace-nowrap'>
-                        {new Date(prod.currentDate).toLocaleDateString()}
+                        {new Date(prod.datePosted).toLocaleDateString()}
                       </td>
 
                       <td className='px-4 py-4 text-sm text-gray-500  whitespace-nowrap'>
-                        ${prod.min_price}-${prod.max_price}
+                        ${prod.productName}
                       </td>
                       <td className='px-4 py-4 text-sm whitespace-nowrap'>
                         <div className='flex items-center gap-x-2'>
                           <p
                             className={`px-3 py-1 ${
-                              prod.category === 'Electronic' &&
+                              prod.brandName === 'Samsung' &&
                               'text-blue-500 bg-blue-100/60'
                             } ${
-                              prod.category === 'Mobile' &&
+                              prod.brandName === 'Apple' &&
                               'text-emerald-500 bg-emerald-100/60'
                             } ${
-                              prod.category === 'Television' &&
+                              prod.brandName === 'Lg' &&
                               'text-pink-500 bg-pink-100/60'
                             } text-xs  rounded-full`}
                           >
-                            {prod.category}
+                            {prod.brandName}
                           </p>
                         </div>
                       </td>
                       <td
-                        title={prod.description}
+                        title={prod.alterationReason}
                         className='px-4 py-4 text-sm text-gray-500  whitespace-nowrap'
                       >
-                        {prod.description.substring(0, 18)}...
+                        {prod.alterationReason.substring(0, 18)}...
                       </td>
                       <td className='px-4 py-4 text-sm whitespace-nowrap'>
                         <div className='flex items-center gap-x-6'>

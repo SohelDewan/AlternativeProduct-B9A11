@@ -14,26 +14,27 @@ const UpdateProduct = () => {
     _id,
     query_title,
     // deadline,
+    currentDate,
     category,
     min_price,
     max_price,
     description,
   } = prod || {}
   const { user } = useContext(AuthContext)
-  const [startDate, setStartDate] = useState(new Date(deadline) || new Date())
+  const [startDate, setStartDate] = useState(new Date(currentDate) || new Date())
   const handleFormSubmit = async e => {
     e.preventDefault()
     const form = e.target
-    const job_title = form.job_title.value
+    const query_title = form.job_title.value
     const email = form.email.value
-    const deadline = startDate
+    const currentDate = startDate
     const category = form.category.value
     const min_price = parseFloat(form.min_price.value)
     const max_price = parseFloat(form.max_price.value)
     const description = form.description.value
-    const jobData = {
-      job_title,
-      deadline,
+    const productData = {
+      query_title,
+      currentDate,
       category,
       min_price,
       max_price,
@@ -48,11 +49,11 @@ const UpdateProduct = () => {
     try {
       const { data } = await axios.put(
         `${import.meta.env.VITE_API_URL}/job/${_id}`,
-        jobData
+        productData
       )
       console.log(data)
       toast.success('Job Data Updated Successfully!')
-      navigate('/my-posted-jobs')
+      navigate('/my-posted-products')
     } catch (err) {
       console.log(err)
       toast.error(err.message)

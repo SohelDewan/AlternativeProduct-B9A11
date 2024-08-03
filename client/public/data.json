@@ -1,5 +1,6 @@
  [
     {
+      "-id": "11",
       "productImage": "https://i.ibb.co/80rFfXh/iphone.jpg",
       "queryTitle": "Looking for an alternative to Iphone",
       "productName": "Samsung",
@@ -13,6 +14,7 @@
       }
     },
     {
+      "-id": "22",
       "productImage": "https://i.ibb.co/WxRtfzK/dell.jpg",
       "queryTitle": "Need recommendations for Product C",
       "productName": "Product D",
@@ -26,6 +28,7 @@
       }
     },
     {
+      "-id": "33",
       "productImage": "https://i.ibb.co/vBV9z4c/watch.jpg",
       "queryTitle": "Switching from Product casio to Liege",
       "productName": "watch",
@@ -39,6 +42,7 @@
       }
     },
     {
+      "-id": "44",
       "productImage": "https://i.ibb.co/1LTGypm/motor-Bike.jpg",
       "queryTitle": "Looking for eco-friendly alternatives",
       "productName": "motor-Bike G",
@@ -52,6 +56,7 @@
       }
     },
     {
+      "-id": "55",
       "productImage": "https://i.ibb.co/5FRW65d/earbuds.jpg",
       "queryTitle": "Switching from earbuds to an alternative",
       "productName": "earbuds",
@@ -65,6 +70,7 @@
       }
     },
     {
+      "-id": "66",
       "productImage": "https://i.ibb.co/f1sFzMm/tv.jpg",
       "queryTitle": "Looking for eco-friendly tv alternatives",
       "productName": "tv",

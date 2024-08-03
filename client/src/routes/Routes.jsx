@@ -5,11 +5,14 @@ import Login from '../pages/Authentication/Login'
 import Register from '../pages/Authentication/Register'
 import ErrorPage from '../pages/ErrorPage'
 import PrivateRoute from './PrivateRoute'
-import ProductDetails from '../components/ProductDetails'
 import UpdateProduct from '../pages/UpdateProduct'
 import Queries from '../components/Queries'
 import AddQuery from '../pages/AddQuery'
 import MyQueries from '../pages/MyQueries'
+import ProductDetails from '../pages/ProductDetails'
+import MyRecommendation from '../pages/MyRecommendation'
+import RecommendationMe from '../pages/RecommendationMe'
+
 const router = createBrowserRouter([
   {
     path: '/',
@@ -33,19 +36,21 @@ const router = createBrowserRouter([
         path: '/queries',
         element: <Queries />,
         loader: ()=>fetch('https://b9a11-server-side-sohel-dewan.vercel.app/products')
+        // loader: ()=>fetch('/data.json')
       },
       {
         path: '/add-query',
         element: <PrivateRoute><AddQuery /></PrivateRoute> ,
       },
       {
-        path: '/my-query',
+        path: '/my-queries',
         element: <PrivateRoute><MyQueries /></PrivateRoute> ,
       },
       {
         path: '/products/:id',
-        element: <PrivateRoute><ProductDetails /></PrivateRoute>,
+        element: <PrivateRoute> <ProductDetails></ProductDetails>  </PrivateRoute>        ,
         loader: ({ params }) =>fetch(`${import.meta.env.VITE_API_URL}/products/${params.id}`)        
+          // loader: ({ params }) =>fetch(`$/{data.json}/${params.id}`)        
       },
       {
         path: '/update/:id',
@@ -55,9 +60,18 @@ const router = createBrowserRouter([
           </PrivateRoute>
         ),
         loader: ({ params }) =>
-          fetch(`${import.meta.env.VITE_API_URL}/job/${params.id}`),
+          fetch(`${import.meta.env.VITE_API_URL}/product/${params.id}`),
       },
-      
+    {
+      path: '/my-recommendation',
+      element: <PrivateRoute> <MyRecommendation></MyRecommendation>  </PrivateRoute>  ,
+        // loader: ({ params }) => fetch(`${import.meta.env.VITE_API_URL}/products/${params.id}`)
+    },   
+    {
+      path: '/recommendation-me',
+      element: <PrivateRoute> <RecommendationMe></RecommendationMe>  </PrivateRoute>  ,
+        // loader: ({ params }) => fetch(`${import.meta.env.VITE_API_URL}/products/${params.id}`)
+    },   
    
     ],
   },

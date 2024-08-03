@@ -60,7 +60,7 @@ const Navbar = () => {
                   <Link to="/add-query">Add Queries</Link>
                 </li>
                 <li>
-                  <Link to="/my-recom">My recommendations</Link>
+                  <Link to="/my-recommendation">My recommendations</Link>
                 </li>
                 <li>
                   <button onClick={logOut}>Log out</button>
@@ -97,13 +97,13 @@ const Navbar = () => {
           {user?.email ? (
             <>
               <li>
-                <Link to="/recom-me">Recommendations For Me</Link>
+                <Link to="/recommendation-me">Recommendations For Me</Link>
               </li>
               <li>
               <Link to="/add-query">Add Queries</Link>
               </li>
               <li>
-                <Link to="/my-recom">My recommendations</Link>
+                <Link to="/my-recommendation">My recommendations</Link>
               </li>
               <li>
                 <button onClick={logOut}>Log out</button>
@@ -139,7 +139,7 @@ const Navbar = () => {
             >
               <li className="text-center">{user?.displayName}</li>
               <li>
-                <Link to="/queries" className="justify-center">
+                <Link to="/my-query" className="justify-center">
                   My Queries
                 </Link>
               </li>
@@ -156,7 +156,7 @@ const Navbar = () => {
           </div>
         )}
       </div>
-      <label className="swap swap-rotate lg:ml-12">
+      <label className="swap swap-rotate pl-16 ">
         {/* this hidden checkbox controls the state */}
         <input
           type="checkbox"

@@ -68,8 +68,8 @@ const Login = () => {
   if (user || loading) return
   
   return (
-    <div className='flex justify-center items-center min-h-[calc(100vh-306px)] my-12'>
-      <div className='flex w-full max-w-sm mx-auto overflow-hidden bg-white rounded-lg shadow-lg  lg:max-w-4xl '>
+    <div className='flex justify-center items-center min-h-[calc(100vh-306px)] my-12 '>
+      <div className='flex w-full max-w-sm mx-auto overflow-hidden bg-white rounded-lg  border-[#14447F] border lg:max-w-4xl '>
         <div
           className='hidden bg-cover bg-center lg:block lg:w-1/2'
           style={{

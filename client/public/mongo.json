@@ -1,0 +1,80 @@
+[
+    {
+      "_id": "6643b5827d8b224cdfa06fa6",
+      "productImage": "https://i.ibb.co/vBV9z4c/watch.jpg",
+      "queryTitle": "Switching from Product casio to Liege",
+      "productName": "watch",
+      "brandName": "Liege",
+      "alterationReason": "Improved customer support",
+      "datePosted": "2024-05-10",
+      "userInfo": {
+        "name": "Alex Brown",
+        "thumbnailImage": "https://i.ibb.co/fD2qmtQ/user3.jpg"
+      }
+    },
+    {
+      "_id": "6643b5827d8b224cdfa06fa5",
+      "productImage": "https://i.ibb.co/WxRtfzK/dell.jpg",
+      "queryTitle": "Need recommendations for Product C",
+      "productName": "Product D",
+      "brandName": "Brand Y",
+      "alterationReason": "Higher quality",
+      "datePosted": "2024-05-11",
+      "userInfo": {
+        "name": "Jane Smith",
+        "thumbnailImage": "https://i.ibb.co/WBh0tHg/user2.jpg"
+      }
+    },
+    {
+      "_id": "6643b5827d8b224cdfa06fa8",
+      "productImage": "https://i.ibb.co/5FRW65d/earbuds.jpg",
+      "queryTitle": "Switching from earbuds to an alternative",
+      "productName": "earbuds",
+      "brandName": "Samsung",
+      "alterationReason": "Improved customer support",
+      "datePosted": "2024-05-10",
+      "userInfo": {
+        "name": "Lina Brown",
+        "thumbnailImage": "https://i.ibb.co/pK1GLxR/user5.png"
+      }
+    },
+    {
+      "_id": "6643b5827d8b224cdfa06fa9",
+      "productImage": "https://i.ibb.co/f1sFzMm/tv.jpg",
+      "queryTitle": "Looking for eco-friendly tv alternatives",
+      "productName": "tv",
+      "brandName": "Samsung",
+      "alterationReason": "Sustainable materials",
+      "datePosted": "2024-05-09",
+      "userInfo": {
+        "name": "Lora Green",
+        "thumbnailImage": "https://i.ibb.co/SKpYxCm/user6.jpg"
+      }
+    },
+    {
+      "_id": "6643b5827d8b224cdfa06fa4",
+      "productImage": "https://i.ibb.co/80rFfXh/iphone.jpg",
+      "queryTitle": "Looking for an alternative to Iphone",
+      "productName": "Samsung",
+      "brandName": "Samsung Galaxy",
+      "alterationReason": "Better features and price",
+      "datePosted": "2024-05-12",
+      "userInfo": {
+        "name": "John Doe",
+        "thumbnailImage": "https://i.ibb.co/D7Xth3H/user1.jpg"
+      }
+    },
+    {
+      "_id": "6643b5827d8b224cdfa06fa7",
+      "productImage": "https://i.ibb.co/1LTGypm/motor-Bike.jpg",
+      "queryTitle": "Looking for eco-friendly alternatives",
+      "productName": "motor-Bike G",
+      "brandName": "Honda",
+      "alterationReason": "Sustainable materials",
+      "datePosted": "2024-05-09",
+      "userInfo": {
+        "name": "Eva Green",
+        "thumbnailImage": "https://i.ibb.co/LhJyJ1g/user4.jpg"
+      }
+    }
+  ]
