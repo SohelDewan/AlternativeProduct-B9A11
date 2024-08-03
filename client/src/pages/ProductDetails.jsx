@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useLoaderData, useNavigate } from "react-router-dom";
+import { useLoaderData } from "react-router-dom";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import toast from "react-hot-toast";
@@ -8,7 +8,7 @@ import useAuth from "../hooks/useAuth";
 
 const ProductDetails = () => {
   const axiosSecure = useAxiosSecure();
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const [startDate, setStartDate] = useState(new Date());
   const { user } = useAuth();
   const product = useLoaderData();
@@ -34,7 +34,7 @@ const ProductDetails = () => {
     const alterationReason = form.alterationReason.value;
     const productName = form.productName.value;
     const productImage = form.productImage.value;
-    const status = "pending";
+    // const status = "pending";
 
     const queryData = {
       productId,
@@ -48,16 +48,17 @@ const ProductDetails = () => {
       email,
       user,
       userInfo,
-      status,
+      // status,
     };
     try {
-      const { data } = await axiosSecure.post(`/my-recommendation`, queryData);
+      const { data } = await axiosSecure.post('http://localhost:9000/recommendation', queryData);
       console.log(data);
       toast.success("Query Uploaded Successfully!");
-      navigate("/my-query");
+      // navigate("/my-query");
     } catch (err) {
-      toast.success(err.response.data);
-      e.target.reset();
+      console.log(err)
+      // toast.success(err.response.data);
+      // e.target.reset();
     }
   };
 
@@ -173,7 +174,7 @@ const ProductDetails = () => {
 
             <div>
               <label className="" htmlFor="alterationReason">
-                My Recommendation
+                My Recommendation Note
               </label>
               <input
                 id="alterationReason"
