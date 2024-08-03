@@ -34,23 +34,24 @@ const client = new MongoClient(uri, {
     deprecationErrors: true,
   }
 });
-// verify jwt middleware
-const verifyToken = (req, res, next) => {
-  const token = req.cookies?.token
-  if (!token) return res.status(401).send({ message: 'unauthorized access' })
-  if (token) {
-    jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, decoded) => {
-      if (err) {
-        console.log(err)
-        return res.status(401).send({ message: 'unauthorized access' })
-      }
-      console.log(decoded)
 
-      req.user = decoded
-      next()
-    })
-  }
-}
+// // verify jwt middleware
+// const verifyToken = (req, res, next) => {
+//   const token = req.cookies?.token
+//   if (!token) return res.status(401).send({ message: 'unauthorized access' })
+//   if (token) {
+//     jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, decoded) => {
+//       if (err) {
+//         console.log(err)
+//         return res.status(401).send({ message: 'unauthorized access' })
+//       }
+//       console.log(decoded)
+
+//       req.user = decoded
+//       next()
+//     })
+//   }
+// }
 
 async function run() {
   try {
@@ -58,43 +59,45 @@ async function run() {
     // await client.connect();
 
     const productCollection = client.db('alternativeProducts').collection('products');
+    const recommendationCollection = client.db('alternativeProducts').collection('recommendations');
 
-      // jwt generate
-      app.post('/jwt', async (req, res) => {
-        const email = req.body
-        const token = jwt.sign(email, process.env.ACCESS_TOKEN_SECRET, {
-          expiresIn: '36d',
-        })
-        res
-          .cookie('token', token, {
-            httpOnly: true,
-            secure: process.env.NODE_ENV === 'production',
-            sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'strict',
-          })
-          .send({ success: true })
-      })
+      // // jwt generate
+      // app.post('/jwt', async (req, res) => {
+      //   const email = req.body
+      //   const token = jwt.sign(email, process.env.ACCESS_TOKEN_SECRET, {
+      //     expiresIn: '36d',
+      //   })
+      //   res
+      //     .cookie('token', token, {
+      //       httpOnly: true,
+      //       secure: process.env.NODE_ENV === 'production',
+      //       sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'strict',
+      //     })
+      //     .send({ success: true })
+      // })
   
       // Clear token on logout
-      app.get('/logout', (req, res) => {
-        res
-          .clearCookie('token', {
-            httpOnly: true,
-            secure: process.env.NODE_ENV === 'production',
-            sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'strict',
-            maxAge: 0,
-          })
-          .send({ success: true })
-      })
+      // app.get('/logout', (req, res) => {
+      //   res
+      //     .clearCookie('token', {
+      //       httpOnly: true,
+      //       secure: process.env.NODE_ENV === 'production',
+      //       sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'strict',
+      //       maxAge: 0,
+      //     })
+      //     .send({ success: true })
+      // })
       
       // Get all products
     app.get('/products', async (req, res) => {
       const products = await productCollection.find().toArray();
       res.send(products);
     })
+   
     
     // Get a single product by id
     
-    app.get('/product/:id', async (req, res) => {
+    app.get('/product/:id',  async (req, res) => {
       const id = req.params.id;
       const quary = {_id: new ObjectId(id)};
       const result = await productCollection.findOne(quary);
@@ -104,27 +107,30 @@ async function run() {
       // };
   })
    // Save a product data in db
-   app.post('/product', async (req, res) => {
-    const jobData = req.body
-    const result = await jobsCollection.insertOne(jobData)
+   app.post('/recommendation', async (req, res) => {
+    const queryData = req.body
+    console.log(queryData)
+    return
+    const result = await recommendationCollection.insertOne(queryData)
     res.send(result)
   })
 
-  // get all products posted by a specific user
-  app.get('/products/:email', verifyToken, async (req, res) => {
+  // get all products posted by a specific user/ queFinder
+  app.get('/products/:email',  async (req, res) => {
     const tokenEmail = req.user.email
     const email = req.params.email
     if (tokenEmail !== email) {
       return res.status(403).send({ message: 'forbidden access' })
     }
-    const query = { 'buyer.email': email }
-    const result = await jobsCollection.find(query).toArray()
+    const query = { 'userInfo.email': email } // buyer.email should be changed like queFinder.email
+    const result = await productCollection.find(query).toArray()
     res.send(result)
   })
     // Save a query data in db
-    app.post('/product', async (req, res) => {
+    app.post('/my-recommendation', async (req, res) => {
       const queryData = req.body
-
+      console.log(queryData)
+      return
       const result = await productCollection.insertOne(queryData)
       res.send(result)
     })
@@ -135,8 +141,16 @@ async function run() {
         const result = await productCollection.deleteOne(query)
         res.send(result)
       })
+          // get all recommendation for a user by email from db
+    app.get('/recommendations-me/:email',  async (req, res) => {
+      const email = req.params.email
+      const query = { email }
+      const result = await recommendationCollection.find(query).toArray()
+      res.send(result)
+    })
+      
     // Send a ping to confirm a successful connection
-    await client.db("admin").command({ ping: 1 });
+    // await client.db("admin").command({ ping: 1 });
     console.log("Pinged your deployment. You successfully connected to MongoDB!");
   } finally {
     // Ensures that the client will close when you finish/error
