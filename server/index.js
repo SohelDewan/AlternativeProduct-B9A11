@@ -97,43 +97,45 @@ async function run() {
     
     // Get a single product by id
     
-    app.get('/product/:id',  async (req, res) => {
+    app.get('/products/:id',  async (req, res) => {
       const id = req.params.id;
       const quary = {_id: new ObjectId(id)};
       const result = await productCollection.findOne(quary);
       res.send(result);
-      // const options = {
-      //     projection: { queryTitle: 1, userInfo: 1, productImage: 1, datePosted:1 },
-      // };
+      const options = {
+          projection: { queryTitle: 1, userInfo: 1, productImage: 1, datePosted:1 },
+      };
   })
-   // Save a product data in db
+   // Save a recommendation data in db
    app.post('/recommendation', async (req, res) => {
     const queryData = req.body
-    console.log(queryData)
-    return
+    // console.log(queryData)
+    // return
     const result = await recommendationCollection.insertOne(queryData)
+    res.send(result)
+  })
+   // Save a product data in db
+   app.post('/product', async (req, res) => {
+    const productData = req.body
+    // console.log(queryData)
+    // return
+    const result = await productCollection.insertOne(productData)
     res.send(result)
   })
 
   // get all products posted by a specific user/ queFinder
-  app.get('/products/:email',  async (req, res) => {
-    const tokenEmail = req.user.email
+  app.get('/product/:email',  async (req, res) => {
+    // const tokenEmail = req.user.email
     const email = req.params.email
-    if (tokenEmail !== email) {
-      return res.status(403).send({ message: 'forbidden access' })
-    }
-    const query = { 'userInfo.email': email } // buyer.email should be changed like queFinder.email
+    // if (tokenEmail !== email) {
+    //   return res.status(403).send({ message: 'forbidden access' })
+    // }
+    const query = { 'userInfo.email': email } 
+    // buyer.email should be changed like queFinder.email
     const result = await productCollection.find(query).toArray()
     res.send(result)
   })
-    // Save a query data in db
-    app.post('/my-recommendation', async (req, res) => {
-      const queryData = req.body
-      console.log(queryData)
-      return
-      const result = await productCollection.insertOne(queryData)
-      res.send(result)
-    })
+
       // delete a product data from db
       app.delete('/product/:id', async (req, res) => {
         const id = req.params.id
@@ -142,12 +144,12 @@ async function run() {
         res.send(result)
       })
           // get all recommendation for a user by email from db
-    app.get('/recommendations-me/:email',  async (req, res) => {
-      const email = req.params.email
-      const query = { email }
-      const result = await recommendationCollection.find(query).toArray()
-      res.send(result)
-    })
+    // app.get('/recommendations-me/:email',  async (req, res) => {
+    //   const email = req.params.email
+    //   const query = { email }
+    //   const result = await recommendationCollection.find(query).toArray()
+    //   res.send(result)
+    // })
       
     // Send a ping to confirm a successful connection
     // await client.db("admin").command({ ping: 1 });
@@ -160,9 +162,9 @@ async function run() {
 run().catch(console.dir);
 
 app.get("/", (req, res) => {
-  res.send("Server is running");
+  res.send({message:"Server is running"});
 });
 
 app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
+  console.log(`Server is running on port  ${port}`);
 });
