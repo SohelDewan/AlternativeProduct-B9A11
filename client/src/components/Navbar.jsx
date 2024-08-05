@@ -140,7 +140,7 @@ const Navbar = () => {
             >
               <li className="text-center">{user?.displayName}</li>
               <li>
-                <Link to="/my-query" className="justify-center">
+                <Link to="/my-queries" className="justify-center">
                   My Queries
                 </Link>
               </li>

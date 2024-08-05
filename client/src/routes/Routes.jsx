@@ -42,7 +42,7 @@ const router = createBrowserRouter([
         element: <PrivateRoute><AddQuery /></PrivateRoute> ,
       },
       {
-        path: '/my-query',
+        path: '/my-queries',
         element: <PrivateRoute><MyQueries /></PrivateRoute> ,
       }, // this is where I post my queries
       {
