@@ -25,8 +25,8 @@ const RecommendationMe = () => {
   }
 
   const { mutateAsync } = useMutation({
-    mutationFn: async ({ id, status }) => {
-      const { data } = await axiosSecure.patch(`/recommendation/${id}`, { status })
+    mutationFn: async ({ id }) => {
+      const { data } = await axiosSecure.patch(`/recommendation/${id}`)
       console.log(data)
       return data
     },
@@ -53,7 +53,7 @@ const RecommendationMe = () => {
   return (
     <section className='container px-4 mx-auto pt-12'>
       <div className='flex items-center gap-x-3'>
-        <h2 className='text-lg font-medium text-gray-800 '>Bid Requests</h2>
+        <h2 className='text-lg font-medium text-gray-800 '>Recommendations for me</h2>
 
         <span className='px-3 py-1 text-xs text-blue-600 bg-blue-100 rounded-full '>
           {recommendations.length} Requests

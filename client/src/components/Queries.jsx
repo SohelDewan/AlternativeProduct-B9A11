@@ -5,8 +5,8 @@ const Queries = () => {
     const [products, setProducts] = useState([]);
 
     useEffect(() => {
-        // fetch('https://b9a11-server-side-sohel-dewan.vercel.app/products')
-            fetch('/data.json')
+        fetch('https://b9a11-server-side-sohel-dewan.vercel.app/products')
+            // fetch('/data.json')
             .then(res => res.json())
             .then(data => {
                 console.log(data); 

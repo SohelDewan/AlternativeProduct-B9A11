@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useLoaderData } from "react-router-dom";
+import { useLoaderData, useNavigate } from "react-router-dom";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import toast from "react-hot-toast";
@@ -8,7 +8,7 @@ import useAuth from "../hooks/useAuth";
 
 const ProductDetails = () => {
   const axiosSecure = useAxiosSecure();
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
   const [startDate, setStartDate] = useState(new Date());
   const { user } = useAuth();
   const product = useLoaderData();
@@ -23,7 +23,7 @@ const ProductDetails = () => {
   console.table(product);
 
   const handleFormSubmission = async (e) => {
-    e.preventDefault();
+    e.preventDefault()
     if (user?.email === userInfo?.email)
       return toast.error("Action not permitted!");
     const form = e.target;
@@ -46,19 +46,18 @@ const ProductDetails = () => {
       price,
       currentDate,
       email,
-      user,
-      userInfo,
-      // status,
-    };
+      userInfo: userInfo.email,
+    }
+    
     try {
-      const { data } = await axiosSecure.post('http://localhost:9000/recommendation', queryData);
+      const { data } = await axiosSecure.post(`/recommendation`, queryData);
       console.log(data);
       toast.success("Query Uploaded Successfully!");
-      // navigate("/my-query");
+      navigate("/my-query");
     } catch (err) {
       console.log(err)
-      // toast.success(err.response.data);
-      // e.target.reset();
+      toast.success(err.response.data);
+      e.target.reset();
     }
   };
 

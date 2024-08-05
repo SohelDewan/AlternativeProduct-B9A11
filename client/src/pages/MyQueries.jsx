@@ -18,14 +18,14 @@ const MyQueries = () => {
     const { data } = await axiosSecure(`${import.meta.env.VITE_API_URL}/products/${user?.email}`)
     setProducts(data)
   }
-
+  console.log(products)
   const handleDelete = async id => {
     try {
-      const { data } = await axiosSecure.delete(`${import.meta.env.VITE_API_URL}/product${id}`)
+      const { data } = await axiosSecure.delete(`${import.meta.env.VITE_API_URL}/products${id}`)
       console.log(data)
       toast.success('Delete Successful')
 
-      //refresh ui
+      //refresh ui 
       getData()
     } catch (err) {
       console.log(err.message)
@@ -96,11 +96,11 @@ const MyQueries = () => {
                   {products.map(prod => (
                     <tr key={prod._id}>
                       <td className='px-4 py-4 text-sm text-gray-500  whitespace-nowrap'>
-                        {prod.query_title}
+                        {prod.queryTitle}
                       </td>
 
                       <td className='px-4 py-4 text-sm text-gray-500  whitespace-nowrap'>
-                        {new Date(prod.datePosted).toLocaleDateString()}
+                        {new Date(prod.userInfo.datePosted).toLocaleString()}
                       </td>
 
                       <td className='px-4 py-4 text-sm text-gray-500  whitespace-nowrap'>

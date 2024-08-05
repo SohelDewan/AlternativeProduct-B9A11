@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { useEffect, useState } from "react";
+// import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 const ProductCard = ({ product }) => {
@@ -13,17 +13,17 @@ const ProductCard = ({ product }) => {
     queryTitle,
   } = product;
 
-  const [products, setProducts] = useState([]);
-  console.log(products)
-  useEffect(() => {
-    fetch("https://b9a11-server-side-sohel-dewan.vercel.app")
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data);
-        setProducts(data);
-      });
-  }, []);
-  console.log(product);
+  // const [products, setProducts] = useState([]);
+  console.log(product)
+  // useEffect(() => {
+  //   fetch("https://b9a11-server-side-sohel-dewan.vercel.app")
+  //     .then((res) => res.json())
+  //     .then((data) => {
+  //       // console.log(data);
+  //       setProducts(data);
+  //     });
+  // }, []);
+  // console.log(product);
 
   return (
     <div className="card container mx-auto mt-12 max-w-96 bg-base-100 shadow-xl">

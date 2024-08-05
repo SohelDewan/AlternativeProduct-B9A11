@@ -60,7 +60,8 @@ const Login = () => {
       console.log(data)
       navigate(from, { replace: true })
       toast.success('Signin Successful')
-    } catch (err) {
+    } 
+    catch (err) {
       console.log(err)
       toast.error(err?.message)
     }

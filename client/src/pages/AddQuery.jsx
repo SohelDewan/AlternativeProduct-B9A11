@@ -16,28 +16,29 @@ const AddQuery = () => {
   const handleFormSubmit = async e => {
     e.preventDefault()
     const form = e.target
+    const queryTitle = form.queryTitle.value
     const productName = form.productName.value
-    const email = form.email.value
     const brandName = form.brandName.value
     const productImage = form.productImage.value
     const alterationReason = form.alterationReason.value
-    const queryData = {
+    const email = form.email.value
+    const productData = {
+      productImage,
+      queryTitle,
       productName,
       brandName,
-      productImage,
       alterationReason,
       userInfo: {
-        email,
-        name: user?.displayName,
-        thumbnailImage: user?.photoURL,
         datePosted: startDate,
+        name: user?.displayName,
+        email,
+        thumbnailImage: user?.photoURL,
       },
       recommendationCount: 0,
     }
     try {
-      const { data } = await axios.post(
-        `${import.meta.env.VITE_API_URL}/product`,
-        queryData
+      const { data } = await axios.post(`${import.meta.env.VITE_API_URL}/product`,
+        productData
       )
       console.log(data)
       toast.success('Query Data Updated Successfully!')
@@ -55,6 +56,17 @@ const AddQuery = () => {
 
         <form onSubmit={handleFormSubmit}>
           <div className='grid grid-cols-1 gap-6 mt-4 sm:grid-cols-2'>
+            <div>
+              <label className='text-gray-700 ' htmlFor='queryTitle'>
+              Query Title
+              </label>
+              <input
+                id='queryTitle'
+                name='queryTitle'
+                type='text'
+                className='block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md  focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40  focus:outline-none focus:ring'
+              />
+            </div>
             <div>
               <label className='text-gray-700 ' htmlFor='productName'>
               Product Name
@@ -115,7 +127,7 @@ const AddQuery = () => {
                 onChange={date => setStartDate(date)}
               />
             </div>
-            <div>
+            {/* <div>
               <label className='text-gray-700 ' htmlFor='emailAddress'>
                 Name
               </label>
@@ -127,7 +139,7 @@ const AddQuery = () => {
                 defaultValue={user?.displayName}
                 className='block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md  focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40  focus:outline-none focus:ring'
               />
-            </div>
+            </div> */}
           </div>
           <div className='flex flex-col gap-2 mt-4'>
             <label className='text-gray-700 ' htmlFor='alterationReason'>

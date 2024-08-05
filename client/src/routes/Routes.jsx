@@ -36,21 +36,19 @@ const router = createBrowserRouter([
         path: '/queries',
         element: <Queries />,
         loader: ()=>fetch('https://b9a11-server-side-sohel-dewan.vercel.app/products')
-        // loader: ()=>fetch('/data.json')
       },
       {
         path: '/add-query',
         element: <PrivateRoute><AddQuery /></PrivateRoute> ,
       },
       {
-        path: '/my-queries',
+        path: '/my-query',
         element: <PrivateRoute><MyQueries /></PrivateRoute> ,
-      },
+      }, // this is where I post my queries
       {
         path: '/products/:id',
         element: <PrivateRoute> <ProductDetails></ProductDetails>  </PrivateRoute>        ,
         loader: ({ params }) =>fetch(`${import.meta.env.VITE_API_URL}/products/${params.id}`)        
-          // loader: ({ params }) =>fetch(`$/{data.json}/${params.id}`)        
       },
       {
         path: '/update/:id',
@@ -63,9 +61,9 @@ const router = createBrowserRouter([
           fetch(`${import.meta.env.VITE_API_URL}/product/${params.id}`),
       },
     {
-      path: '/my-recommendation',
+      path: '/recommendation',
       element: <PrivateRoute> <MyRecommendation></MyRecommendation>  </PrivateRoute>  ,
-        // loader: ({ params }) => fetch(`${import.meta.env.VITE_API_URL}/products/${params.id}`)
+        loader: ({ params }) => fetch(`${import.meta.env.VITE_API_URL}/recommendation/${params.id}`)
     },   
     {
       path: '/recommendation-me',
