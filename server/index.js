@@ -36,22 +36,22 @@ const client = new MongoClient(uri, {
 });
 
 // // verify jwt middleware
-// const verifyToken = (req, res, next) => {
-//   const token = req.cookies?.token
-//   if (!token) return res.status(401).send({ message: 'unauthorized access' })
-//   if (token) {
-//     jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, decoded) => {
-//       if (err) {
-//         console.log(err)
-//         return res.status(401).send({ message: 'unauthorized access' })
-//       }
-//       console.log(decoded)
+const verifyToken = (req, res, next) => {
+  const token = req.cookies?.token
+  if (!token) return res.status(401).send({ message: 'unauthorized access' })
+  if (token) {
+    jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, decoded) => {
+      if (err) {
+        console.log(err)
+        return res.status(401).send({ message: 'unauthorized access' })
+      }
+      console.log(decoded)
 
-//       req.user = decoded
-//       next()
-//     })
-//   }
-// }
+      req.user = decoded
+      next()
+    })
+  }
+}
 
 async function run() {
   try {
@@ -62,31 +62,31 @@ async function run() {
     const recommendationCollection = client.db('alternativeProducts').collection('recommendations');
 
       // // jwt generate
-      // app.post('/jwt', async (req, res) => {
-      //   const email = req.body
-      //   const token = jwt.sign(email, process.env.ACCESS_TOKEN_SECRET, {
-      //     expiresIn: '36d',
-      //   })
-      //   res
-      //     .cookie('token', token, {
-      //       httpOnly: true,
-      //       secure: process.env.NODE_ENV === 'production',
-      //       sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'strict',
-      //     })
-      //     .send({ success: true })
-      // })
+      app.post('/jwt', async (req, res) => {
+        const email = req.body
+        const token = jwt.sign(email, process.env.ACCESS_TOKEN_SECRET, {
+          expiresIn: '60d',
+        })
+        res
+          .cookie('token', token, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'strict',
+          })
+          .send({ success: true })
+      })
   
       // Clear token on logout
-      // app.get('/logout', (req, res) => {
-      //   res
-      //     .clearCookie('token', {
-      //       httpOnly: true,
-      //       secure: process.env.NODE_ENV === 'production',
-      //       sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'strict',
-      //       maxAge: 0,
-      //     })
-      //     .send({ success: true })
-      // })
+      app.get('/logout', (req, res) => {
+        res
+          .clearCookie('token', {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'strict',
+            maxAge: 0,
+          })
+          .send({ success: true })
+      })
       
       // Get all products
     app.get('/products', async (req, res) => {
@@ -96,7 +96,6 @@ async function run() {
    
     
     // Get a single product by id
-    
     app.get('/products/:id',  async (req, res) => {
       const id = req.params.id;
       const quary = {_id: new ObjectId(id)};
@@ -107,14 +106,28 @@ async function run() {
       };
   })
    // Save a recommendation data in db
-   app.post('/recommendation', async (req, res) => {
+   app.post('/recommendations', async (req, res) => {
     const queryData = req.body
     // console.log(queryData)
     // return
     const result = await recommendationCollection.insertOne(queryData)
     res.send(result)
   })
-   // Save a product data in db
+  // Get the recommendations by email of a specific user from mongodb
+  app.get('/recommendations/:email', async (req, res) => {
+    const email = req.params.email
+    const query ={userInfo: email } 
+    const result = await recommendationCollection.find(query).toArray();
+    res.send(result);
+  })
+
+  app.get('/recommendation-me/:email', async (req, res) => {
+    const email = req.params.email
+    const query ={userInfo: email } 
+    const result = await recommendationCollection.find(query).toArray();
+    res.send(result);
+  })
+   // Save a product/query data in db
    app.post('/product', async (req, res) => {
     const productData = req.body
     // console.log(queryData)
@@ -123,7 +136,7 @@ async function run() {
     res.send(result)
   })
 
-  // get all products posted by a specific user/ queFinder
+  // get all products/query posted by a specific user/ to find all products
   app.get('/product/:email',  async (req, res) => {
     // const tokenEmail = req.user.email
     const email = req.params.email
@@ -137,20 +150,25 @@ async function run() {
   })
 
       // delete a product data from db
-      app.delete('/product/:id', async (req, res) => {
+      app.delete('/products/:id', async (req, res) => {
         const id = req.params.id
         const query = { _id: new ObjectId(id) }
         const result = await productCollection.deleteOne(query)
         res.send(result)
       })
-          // get all recommendation for a user by email from db
-    // app.get('/recommendations-me/:email',  async (req, res) => {
-    //   const email = req.params.email
-    //   const query = { email }
-    //   const result = await recommendationCollection.find(query).toArray()
-    //   res.send(result)
-    // })
-      
+      // update a product in db
+      app.put('/products/:id', async (req, res)=>{
+        const id = req.params.id
+        const productData = req.body
+        const query = { _id: new ObjectId(id) }
+        const options = {upsert: true } 
+        // if any data is not found id db then it will create a new one for options
+        const updateDoc = { 
+          $set: {...productData }}
+        const result = await productCollection.updateOne(query, updateDoc, options)
+        res.send(result)
+      })
+   
     // Send a ping to confirm a successful connection
     // await client.db("admin").command({ ping: 1 });
     console.log("Pinged your deployment. You successfully connected to MongoDB!");
@@ -162,7 +180,7 @@ async function run() {
 run().catch(console.dir);
 
 app.get("/", (req, res) => {
-  res.send({message:"Server is running"});
+  res.send({message:"Server is running properly"});
 });
 
 app.listen(port, () => {
