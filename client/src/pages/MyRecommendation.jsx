@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react'
-
 import axios from 'axios'
 import useAxiosSecure from '../hooks/useAxiosSecure'
 import useAuth from '../hooks/useAuth'
@@ -17,13 +16,13 @@ const MyRecommendation = () => {
   }, [user])
 
   const getData = async () => {
-    const { data } = await axiosSecure(`${import.meta.env.VITE_API_URL}/recommendation/${user?.email}`)
+    const { data } = await axiosSecure(`${import.meta.env.VITE_API_URL}/recommendations/${user?.email}`)
     setRecommendations(data)
   }
   // handleStatus
   const handleStatus = async (id, status) => {
     const { data } = await axios.patch(
-      `${import.meta.env.VITE_API_URL}/recommendation/${id}`,
+      `${import.meta.env.VITE_API_URL}/recommendations/${id}`,
       { status }
     )
     console.log(data)
@@ -98,11 +97,11 @@ const MyRecommendation = () => {
                       </td>
 
                       <td className='px-4 py-4 text-sm text-gray-500  whitespace-nowrap'>
-                        {new Date(recom.info.datePosted).toLocaleDateString()}
+                        {new Date(recom.userInfo.datePosted).toLocaleDateString()}
                       </td>
 
                       <td className='px-4 py-4 text-sm text-gray-500  whitespace-nowrap'>
-                        ${recom.price}
+                        {recom.productName}
                       </td>
                       <td className='px-4 py-4 text-sm whitespace-nowrap'>
                         <div className='flex items-center gap-x-2'>
@@ -125,7 +124,7 @@ const MyRecommendation = () => {
                       <td className='px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap'>
                         <div
                           className={`inline-flex items-center px-3 py-1 rounded-full gap-x-2 ${
-                            recom.status === 'Pending' &&
+                            recom.status === 'Reading' &&
                             'bg-yellow-100/60 text-yellow-500'
                           } ${
                             recom.status === 'In Progress' &&
@@ -140,7 +139,7 @@ const MyRecommendation = () => {
                         >
                           <span
                             className={`h-1.5 w-1.5 rounded-full ${
-                              recom.status === 'Pending' && 'bg-yellow-500'
+                              recom.status === 'ReadingR' && 'bg-yellow-500'
                             } ${
                               recom.status === 'In Progress' && 'bg-blue-500'
                             } ${recom.status === 'Complete' && 'bg-green-500'} ${

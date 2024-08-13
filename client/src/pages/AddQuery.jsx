@@ -28,6 +28,7 @@ const AddQuery = () => {
       productName,
       brandName,
       alterationReason,
+      email,
       userInfo: {
         datePosted: startDate,
         name: user?.displayName,

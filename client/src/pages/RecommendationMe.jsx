@@ -26,7 +26,7 @@ const RecommendationMe = () => {
 
   const { mutateAsync } = useMutation({
     mutationFn: async ({ id }) => {
-      const { data } = await axiosSecure.patch(`/recommendation/${id}`)
+      const { data } = await axiosSecure.patch(`/recommendation-me/${id}`)
       console.log(data)
       return data
     },
@@ -88,7 +88,7 @@ const RecommendationMe = () => {
                       scope='col'
                       className='px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500'
                     >
-                      <span>Deadline</span>
+                      <span>Posted Date</span>
                     </th>
 
                     <th
@@ -130,7 +130,7 @@ const RecommendationMe = () => {
                       </td>
 
                       <td className='px-4 py-4 text-sm text-gray-500  whitespace-nowrap'>
-                        {new Date(recommendation.deadline).toLocaleDateString()}
+                        {new Date(recommendation.currentDate).toLocaleDateString()}
                       </td>
 
                       <td className='px-4 py-4 text-sm text-gray-500  whitespace-nowrap'>

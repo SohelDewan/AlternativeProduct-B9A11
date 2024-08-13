@@ -18,10 +18,10 @@ const MyQueries = () => {
     const { data } = await axiosSecure(`${import.meta.env.VITE_API_URL}/product/${user?.email}`)
     setProducts(data)
   }
-  console.log(products)
+  // console.log(products)
   const handleDelete = async id => {
     try {
-      const { data } = await axiosSecure.delete(`${import.meta.env.VITE_API_URL}/products${id}`)
+      const { data } = await axiosSecure.delete(`${import.meta.env.VITE_API_URL}/products/${id}`)
       console.log(data)
       toast.success('Delete Successful')
 
@@ -104,7 +104,7 @@ const MyQueries = () => {
                       </td>
 
                       <td className='px-4 py-4 text-sm text-gray-500  whitespace-nowrap'>
-                        ${prod.productName}
+                        {prod.productName}
                       </td>
                       <td className='px-4 py-4 text-sm whitespace-nowrap'>
                         <div className='flex items-center gap-x-2'>

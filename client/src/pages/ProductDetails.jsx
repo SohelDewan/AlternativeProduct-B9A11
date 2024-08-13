@@ -14,7 +14,7 @@ const ProductDetails = () => {
   const product = useLoaderData();
   const {
     _id,
-    query_title,
+    queryTitle,
     productName,
     brandName,
     alterationReason,
@@ -25,35 +25,34 @@ const ProductDetails = () => {
   const handleFormSubmission = async (e) => {
     e.preventDefault()
     if (user?.email === userInfo?.email)
-      return toast.error("Action not permitted!");
+      return toast.error("Action not permitted and recomend others query!");
     const form = e.target;
     const productId = _id;
     const currentDate = startDate;
     const email = form.user?.email;
-    const price = form.price.value;
     const alterationReason = form.alterationReason.value;
     const productName = form.productName.value;
     const productImage = form.productImage.value;
-    // const status = "pending";
+    const status = "Read";
 
     const queryData = {
       productId,
       productName,
-      query_title,
+      queryTitle,
       productImage,
       brandName,
       alterationReason,
-      price,
       currentDate,
       email,
+      status,
       userInfo: userInfo.email,
     }
     
     try {
-      const { data } = await axiosSecure.post(`/recommendation`, queryData);
+      const { data } = await axiosSecure.post(`${import.meta.env.VITE_API_URL}/recommendations`, queryData);
       console.log(data);
       toast.success("Query Uploaded Successfully!");
-      navigate("/my-query");
+      navigate("/recommendations");
     } catch (err) {
       console.log(err)
       toast.success(err.response.data);
@@ -67,7 +66,7 @@ const ProductDetails = () => {
       <div className="flex-1 w-96 md:w-[600px] px-4 py-7 bg-white rounded-xl shadow-md md:min-h-[350px]">
         <div className="flex items-center justify-between">
           <span className="text-sm font-light text-gray-800 ">
-            Posted Date: {product.userInfo.datePosted}
+            Posted Date: {new Date(userInfo.datePosted).toLocaleDateString()}
           </span>
           <span className="px-6 py-3 text-xs text-white uppercase bg-[#14447fad] rounded-full ">
             {brandName}
@@ -76,7 +75,7 @@ const ProductDetails = () => {
 
         <div>
           <h1 className="mt-2 text-3xl font-semibold text-gray-800 ">
-            {query_title}
+            {queryTitle}
           </h1>
 
           <p className="mt-2 text-lg text-gray-600 ">
@@ -110,12 +109,12 @@ const ProductDetails = () => {
         </div>
         {/* <p>User</p> */}
       </div>
+
       {/* Place A Recommendation Form */}
       <section className="p-6 w-full text-white rounded-md shadow-md flex-1 md:min-h-[350px]">
         <h2 className="text-lg text-white font-semibold  capitalize ">
           Add A Query
         </h2>
-
         <form onSubmit={handleFormSubmission}>
           <div className="grid grid-cols-1 gap-6 mt-4 sm:grid-cols-2">
             <div>
@@ -166,7 +165,7 @@ const ProductDetails = () => {
                 type="email"
                 name="email"
                 disabled
-                defaultValue={user.email}
+                defaultValue={user?.email}
                 className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md   focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40  focus:outline-none focus:ring"
               />
             </div>
@@ -189,7 +188,10 @@ const ProductDetails = () => {
               <DatePicker
                 className="border p-2 rounded-md text-gray-700"
                 selected={startDate}
-                onChange={(date) => setStartDate(date)}
+                onChange={(date) => {
+                  console.log(date); // Check the selected date
+                  setStartDate(date)}
+                }
               />
             </div>
           </div>
