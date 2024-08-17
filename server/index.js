@@ -113,19 +113,49 @@ async function run() {
     const result = await recommendationCollection.insertOne(queryData)
     res.send(result)
   })
-  // Get the recommendations by email of a specific user from mongodb
+
+  // Get all recommendations by email of a specific user from mongodb
   app.get('/recommendations/:email', async (req, res) => {
     const email = req.params.email
-    const query ={userInfo: email } 
+    const query ={ email } 
     const result = await recommendationCollection.find(query).toArray();
     res.send(result);
   })
 
+  // Get the recommendations by other user owner of the query/product for me from mongodb
   app.get('/recommendation-me/:email', async (req, res) => {
     const email = req.params.email
-    const query ={userInfo: email } 
+    const query ={'userInfo.email': email } 
     const result = await recommendationCollection.find(query).toArray();
     res.send(result);
+  })
+   // Save a recommendation data in db
+   app.post('/recommendation-me', async (req, res) => {
+    const recommendationData = req.body
+
+    // check if its a duplicate request
+    const query = {
+      email: recommendationData.email,
+      productId: productData.productId,
+    }
+    const alreadyApplied = await recommendationCollection.findOne(query)
+    console.log(alreadyApplied)
+    if (alreadyApplied) {
+      return res
+        .status(400)
+        .send('You have already placed a bid on this job.')
+    }
+
+    const result = await recommendationCollection.insertOne(bidData)
+
+    // update recommendation count in jobs collection
+    const updateDoc = {
+      $inc: { recommendation_count: 1 },
+    }
+    const productQuery = { _id: new ObjectId(recommendationData.jobId) }
+    const updateRecommendationCount = await productCollection.updateOne(jobQuery, updateDoc)
+    console.log(updateRecommendationCount)
+    res.send(result)
   })
    // Save a product/query data in db
    app.post('/product', async (req, res) => {
