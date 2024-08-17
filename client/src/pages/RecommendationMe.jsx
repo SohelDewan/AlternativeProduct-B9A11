@@ -72,7 +72,7 @@ const RecommendationMe = () => {
                       className='py-3.5 px-4 text-sm font-normal text-left rtl:text-right text-gray-500'
                     >
                       <div className='flex items-center gap-x-3'>
-                        <span>Title</span>
+                        <span>Product Name</span>
                       </div>
                     </th>
                     <th
@@ -104,7 +104,7 @@ const RecommendationMe = () => {
                       scope='col'
                       className='px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500'
                     >
-                      Category
+                      Brand Name
                     </th>
 
                     <th
@@ -123,14 +123,14 @@ const RecommendationMe = () => {
                   {recommendations.map(recommendation => (
                     <tr key={recommendation._id}>
                       <td className='px-4 py-4 text-sm text-gray-500  whitespace-nowrap'>
-                        {recommendation.queryTitle}
+                        {recommendation.productName}
                       </td>
                       <td className='px-4 py-4 text-sm text-gray-500  whitespace-nowrap'>
                         {recommendation.email}
                       </td>
 
                       <td className='px-4 py-4 text-sm text-gray-500  whitespace-nowrap'>
-                        {new Date(recommendation.currentDate).toLocaleDateString()}
+                        {new Date(recommendation.datePosted).toLocaleDateString()}
                       </td>
 
                       <td className='px-4 py-4 text-sm text-gray-500  whitespace-nowrap'>
@@ -146,7 +146,7 @@ const RecommendationMe = () => {
                               recommendation.brandName === 'Apple' &&
                               'text-emerald-500 bg-emerald-100/60'
                             } ${
-                              recommendation.brandName === 'Lg' &&
+                              recommendation.brandName === 'LG' &&
                               'text-pink-500 bg-pink-100/60'
                             } text-xs`}
                           >
@@ -157,7 +157,7 @@ const RecommendationMe = () => {
                       <td className='px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap'>
                         <div
                           className={`inline-flex items-center px-3 py-1 rounded-full gap-x-2 ${
-                            recommendation.status === 'Pending' &&
+                            recommendation.status === 'Reading' &&
                             'bg-yellow-100/60 text-yellow-500'
                           } ${
                             recommendation.status === 'In Progress' &&
@@ -172,7 +172,7 @@ const RecommendationMe = () => {
                         >
                           <span
                             className={`h-1.5 w-1.5 rounded-full ${
-                              recommendation.status === 'Pending' && 'bg-yellow-500'
+                              recommendation.status === 'Reading' && 'bg-yellow-500'
                             } ${
                               recommendation.status === 'In Progress' && 'bg-blue-500'
                             } ${recommendation.status === 'Complete' && 'bg-green-500'} ${

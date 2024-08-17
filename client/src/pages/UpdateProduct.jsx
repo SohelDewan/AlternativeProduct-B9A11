@@ -11,32 +11,31 @@ const UpdateProduct = () => {
   const product = useLoaderData()
   const {
     _id,
-    productImage,
     queryTitle,
+    productName,
     alterationReason,
     brandName,
-    productName,
-    userInfo,
+    datePosted
 
   } = product || {}
   const { user } = useContext(AuthContext)
-  const [startDate, setStartDate] = useState(new Date(userInfo?.datePosted) || new Date())
+  const [startDate, setStartDate] = useState(new Date(datePosted) || new Date())
   const handleFormSubmit = async e => {
     e.preventDefault()
     const form = e.target
     const productImage = form.productImage.value
     const queryTitle = form.queryTitle.value
     const email = form.email.value
-    const currentDate = startDate
+    const datePosted = startDate
     const brandName = form.brandName.value
     const alterationReason = form.alterationReason.value
     const productData = {
       queryTitle,
+      productName,
       productImage,
       brandName,
       alterationReason,
-      productName,
-      currentDate,
+      datePosted,
       userInfo: {
         email,
         name: user?.displayName,
@@ -105,17 +104,18 @@ const UpdateProduct = () => {
               />
             </div>
             <div className='flex flex-col gap-2 '>
-              <label className='text-gray-700'>Date for recommendation</label>
-
+            <label className='text-gray-700'>Product Name</label>
+              <input className='border-2 p-2 rounded-md'
+              defaultValue={product.productName} />
+            </div>
               <DatePicker
                 className='border p-2 rounded-md'
                 selected={startDate}
                 onChange={date => setStartDate(date)}
               />
-            </div>
 
             <div className='flex flex-col gap-2 '>
-              <label className='text-gray-700 ' htmlFor='category'>
+              <label className='text-gray-700 ' htmlFor='brandName'>
                 Brand Name
               </label>
               <select
@@ -126,21 +126,9 @@ const UpdateProduct = () => {
               >
                 <option value='Samsung'>Samsung</option>
                 <option value='Apple'>Apple</option>
-                <option value='Lg'>Lg</option>
+                <option value='LG'>LG</option>
               </select>
-            </div>
-            
-            <div className='flex flex-col gap-2 '>
-              <label className='text-gray-700'>Date for Update</label>
-              <input type="date" 
-              id='currentDate'
-              name='currentDate'
-              defaultValue={new Date(product.currentDate).toLocaleDateString()}
-               
-              />
-             
-            </div>
-            
+            </div>            
           </div>
           <div className='flex flex-col gap-2 mt-4'>
             <label className='text-gray-700 ' htmlFor='alterationReason'>

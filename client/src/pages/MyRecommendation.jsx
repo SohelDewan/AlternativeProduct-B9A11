@@ -97,7 +97,7 @@ const MyRecommendation = () => {
                       </td>
 
                       <td className='px-4 py-4 text-sm text-gray-500  whitespace-nowrap'>
-                        {new Date(recom.userInfo.datePosted).toLocaleDateString()}
+                        {new Date(recom.datePosted).toLocaleDateString()}
                       </td>
 
                       <td className='px-4 py-4 text-sm text-gray-500  whitespace-nowrap'>
@@ -113,7 +113,7 @@ const MyRecommendation = () => {
                               recom.brandName === 'Apple' &&
                               'text-emerald-500 bg-emerald-100/60'
                             } ${
-                              recom.brandName === 'Lg' &&
+                              recom.brandName === 'LG' &&
                               'text-pink-500 bg-pink-100/60'
                             } text-xs  rounded-full`}
                           >
@@ -139,7 +139,7 @@ const MyRecommendation = () => {
                         >
                           <span
                             className={`h-1.5 w-1.5 rounded-full ${
-                              recom.status === 'ReadingR' && 'bg-yellow-500'
+                              recom.status === 'Reading' && 'bg-yellow-500'
                             } ${
                               recom.status === 'In Progress' && 'bg-blue-500'
                             } ${recom.status === 'Complete' && 'bg-green-500'} ${

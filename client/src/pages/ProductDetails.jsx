@@ -12,28 +12,21 @@ const ProductDetails = () => {
   const [startDate, setStartDate] = useState(new Date());
   const { user } = useAuth();
   const product = useLoaderData();
-  const {
-    _id,
-    queryTitle,
-    productName,
-    brandName,
-    alterationReason,
-    userInfo,
-  } = product || {};
-  console.table(product);
+  const { _id, queryTitle, brandName, alterationReason, datePosted, userInfo } =
+    product || {};
+  // console.table(product);
 
   const handleFormSubmission = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
     if (user?.email === userInfo?.email)
-      return toast.error("Action not permitted and recomend others query!");
+      return toast.error("Action not permitted, recommend others query!");
     const form = e.target;
     const productId = _id;
-    const currentDate = startDate;
-    const email = form.user?.email;
+    const email = user?.email;
     const alterationReason = form.alterationReason.value;
     const productName = form.productName.value;
     const productImage = form.productImage.value;
-    const status = "Read";
+    const status = "Unread";
 
     const queryData = {
       productId,
@@ -42,19 +35,23 @@ const ProductDetails = () => {
       productImage,
       brandName,
       alterationReason,
-      currentDate,
+      datePosted,
       email,
+      owner_email:userInfo.email,
       status,
-      userInfo: userInfo.email,
-    }
-    
+      userInfo,
+    };
+
     try {
-      const { data } = await axiosSecure.post(`${import.meta.env.VITE_API_URL}/recommendations`, queryData);
+      const { data } = await axiosSecure.post(
+        `${import.meta.env.VITE_API_URL}/recommendations`,
+        queryData
+      );
       console.log(data);
       toast.success("Query Uploaded Successfully!");
       navigate("/recommendations");
     } catch (err) {
-      console.log(err)
+      console.log(err);
       toast.success(err.response.data);
       e.target.reset();
     }
@@ -66,7 +63,7 @@ const ProductDetails = () => {
       <div className="flex-1 w-96 md:w-[600px] px-4 py-7 bg-white rounded-xl shadow-md md:min-h-[350px]">
         <div className="flex items-center justify-between">
           <span className="text-sm font-light text-gray-800 ">
-            Posted Date: {new Date(userInfo.datePosted).toLocaleDateString()}
+            Posted Date: {new Date(datePosted).toLocaleDateString()}
           </span>
           <span className="px-6 py-3 text-xs text-white uppercase bg-[#14447fad] rounded-full ">
             {brandName}
@@ -91,9 +88,6 @@ const ProductDetails = () => {
           </div>
           <div className="flex items-center gap-5">
             <div>
-              <p className="mt-2 text-sm  text-gray-600">
-                Product Name: {productName}
-              </p>
               <p className="mt-2 text-sm  text-gray-600">
                 Name: {userInfo?.name}
               </p>
@@ -130,32 +124,19 @@ const ProductDetails = () => {
               />
             </div>
             <div>
-            <label className=" " htmlFor="productImage">
-              Product Image Url
-            </label>
-            <input
-              id="productImage"
-              name="productImage"
-              type="url"
-              required
-              className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md   focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40  focus:outline-none focus:ring"
-            />
-          </div>
-          </div>
-          <div className="grid grid-cols-1 gap-6 mt-4 sm:grid-cols-2">
-            <div>
-              <label className=" " htmlFor="price">
-                Price
+              <label className=" " htmlFor="productImage">
+                Product Image Url
               </label>
               <input
-                id="price"
-                type="text"
-                name="price"
+                id="productImage"
+                name="productImage"
+                type="url"
                 required
                 className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md   focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40  focus:outline-none focus:ring"
               />
             </div>
-
+          </div>
+          <div className="grid grid-cols-1 gap-6 mt-4 sm:grid-cols-2">
             <div>
               <label className=" " htmlFor="emailAddress">
                 Email Address
@@ -190,8 +171,8 @@ const ProductDetails = () => {
                 selected={startDate}
                 onChange={(date) => {
                   console.log(date); // Check the selected date
-                  setStartDate(date)}
-                }
+                  setStartDate(date);
+                }}
               />
             </div>
           </div>
@@ -201,7 +182,7 @@ const ProductDetails = () => {
               type="submit"
               className="px-8 py-2.5 leading-5 text-white transition-colors duration-300 transform bg-[#14447F] rounded-md hover:bg-[#538a48] focus:outline-none focus:bg-gray-600"
             >
-              Add Query
+              My Recommendation
             </button>
           </div>
         </form>

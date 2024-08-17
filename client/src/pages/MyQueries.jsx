@@ -100,7 +100,7 @@ const MyQueries = () => {
                       </td>
 
                       <td className='px-4 py-4 text-sm text-gray-500  whitespace-nowrap'>
-                        {new Date(prod.userInfo.datePosted).toLocaleString()}
+                      {new Date(prod.datePosted).toLocaleDateString()}
                       </td>
 
                       <td className='px-4 py-4 text-sm text-gray-500  whitespace-nowrap'>
@@ -116,7 +116,7 @@ const MyQueries = () => {
                               prod.brandName === 'Apple' &&
                               'text-emerald-500 bg-emerald-100/60'
                             } ${
-                              prod.brandName === 'Lg' &&
+                              prod.brandName === 'LG' &&
                               'text-pink-500 bg-pink-100/60'
                             } text-xs  rounded-full`}
                           >

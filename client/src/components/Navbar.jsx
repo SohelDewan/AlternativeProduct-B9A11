@@ -57,10 +57,10 @@ const Navbar = () => {
                   <Link to="/recom-me">Recommendations For Me</Link>
                 </li>
                 <li>
-                  <Link to="/add-query">Add Queries</Link>
+                  <Link to="/my-queries">My Queries</Link>
                 </li>
                 <li>
-                  <Link to="/recommendation">My recommendations</Link>
+                  <Link to="/recommendations">My recommendations</Link>
                 </li>
                 <li>
                   <button onClick={logOut}>Log out</button>
@@ -97,11 +97,11 @@ const Navbar = () => {
           {user?.email ? (
             <>
               <li>
-              <Link to="/add-query">Add Queries</Link>
+              <Link to="/my-queries">My Queries</Link>
               </li>
             
               <li>
-                <Link to="/recommendation">My recommendations</Link>
+                <Link to="/recommendations">My recommendations</Link>
               </li>
               <li>
                 <Link to="/recommendation-me">Recommendations For Me</Link>
@@ -140,8 +140,8 @@ const Navbar = () => {
             >
               <li className="text-center">{user?.displayName}</li>
               <li>
-                <Link to="/my-queries" className="justify-center">
-                  My Queries
+                <Link to="/add-query" className="justify-center">
+                  Add Query
                 </Link>
               </li>
 

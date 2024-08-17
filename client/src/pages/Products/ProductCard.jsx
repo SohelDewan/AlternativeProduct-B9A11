@@ -8,9 +8,10 @@ const ProductCard = ({ product }) => {
     brandName,
     productName,
     alterationReason,
-    userInfo,
+    datePosted,
     productImage,
     queryTitle,
+    userInfo,
   } = product;
 
   // const [products, setProducts] = useState([]);
@@ -35,7 +36,7 @@ const ProductCard = ({ product }) => {
         <p>Product Name: {productName}</p>
         <h2 className="card-title text-[#14447F]">Brand Name: {brandName}</h2>
         <p>Alter Reason: {alterationReason}</p>
-        <p>Date Posted: {userInfo.datePosted}</p>
+        <p>Date Posted:  {new Date(datePosted).toLocaleDateString()}</p>
         <p className=" flex "> User Info: {userInfo.name}{" "}
           <img
             className="w-12 h-12 rounded-full ml-12"
