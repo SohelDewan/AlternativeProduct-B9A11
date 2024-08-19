@@ -13,7 +13,8 @@ const RecommendationMe = () => {
   })
   console.log(recommendations)
   console.log(isLoading)
-  // const [bids, setBids] = useState([])
+
+  // const [recommendations, setRecommendations] = useState([])
 
   // useEffect(() => {
   //   getData()
@@ -25,8 +26,8 @@ const RecommendationMe = () => {
   }
 
   const { mutateAsync } = useMutation({
-    mutationFn: async ({ id }) => {
-      const { data } = await axiosSecure.patch(`/recommendation-me/${id}`)
+    mutationFn: async ({ id, status }) => {
+      const { data } = await axiosSecure.patch(`/recommendation/${id}`, { status })
       console.log(data)
       return data
     },
@@ -44,7 +45,9 @@ const RecommendationMe = () => {
   // handleStatus
   const handleStatus = async (id, prevStatus, status) => {
     console.log(id, prevStatus, status)
-    if (prevStatus === status) return console.log('Sry vai.. hobena')
+    const { data } = await axiosSecure.patch(`${import.meta.env.VITE_API_URL}/recommendations/${id}`, {status})
+    console.log(data)
+    if (prevStatus === status) return console.log('You have already reviewed')
     await mutateAsync({ id, status })
   }
 
@@ -95,15 +98,6 @@ const RecommendationMe = () => {
                       scope='col'
                       className='px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500'
                     >
-                      <button className='flex items-center gap-x-2'>
-                        <span>Price</span>
-                      </button>
-                    </th>
-
-                    <th
-                      scope='col'
-                      className='px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500'
-                    >
                       Brand Name
                     </th>
 
@@ -133,9 +127,6 @@ const RecommendationMe = () => {
                         {new Date(recommendation.datePosted).toLocaleDateString()}
                       </td>
 
-                      <td className='px-4 py-4 text-sm text-gray-500  whitespace-nowrap'>
-                        ${recommendation.price}
-                      </td>
                       <td className='px-4 py-4 text-sm whitespace-nowrap'>
                         <div className='flex items-center gap-x-2'>
                           <p
@@ -157,10 +148,10 @@ const RecommendationMe = () => {
                       <td className='px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap'>
                         <div
                           className={`inline-flex items-center px-3 py-1 rounded-full gap-x-2 ${
-                            recommendation.status === 'Reading' &&
+                            recommendation.status === 'Unread' &&
                             'bg-yellow-100/60 text-yellow-500'
                           } ${
-                            recommendation.status === 'In Progress' &&
+                            recommendation.status === 'Read' &&
                             'bg-blue-100/60 text-blue-500'
                           } ${
                             recommendation.status === 'Complete' &&
@@ -172,9 +163,9 @@ const RecommendationMe = () => {
                         >
                           <span
                             className={`h-1.5 w-1.5 rounded-full ${
-                              recommendation.status === 'Reading' && 'bg-yellow-500'
+                              recommendation.status === 'Unread' && 'bg-yellow-500'
                             } ${
-                              recommendation.status === 'In Progress' && 'bg-blue-500'
+                              recommendation.status === 'Read' && 'bg-blue-500'
                             } ${recommendation.status === 'Complete' && 'bg-green-500'} ${
                               recommendation.status === 'Rejected' && 'bg-red-500'
                             }  `}
@@ -187,7 +178,7 @@ const RecommendationMe = () => {
                           {/* Accept Button: In Progress */}
                           <button
                             onClick={() =>
-                              handleStatus(recommendation._id, recommendation.status, 'In Progress')
+                              handleStatus(recommendation._id, recommendation.status, 'Read')
                             }
                             disabled={recommendation.status === 'Complete'}
                             className='disabled:cursor-not-allowed text-gray-500 transition-colors duration-200   hover:text-red-500 focus:outline-none'

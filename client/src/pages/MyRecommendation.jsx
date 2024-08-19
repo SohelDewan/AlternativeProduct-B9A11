@@ -124,10 +124,10 @@ const MyRecommendation = () => {
                       <td className='px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap'>
                         <div
                           className={`inline-flex items-center px-3 py-1 rounded-full gap-x-2 ${
-                            recom.status === 'Reading' &&
+                            recom.status === 'Unread' &&
                             'bg-yellow-100/60 text-yellow-500'
                           } ${
-                            recom.status === 'In Progress' &&
+                            recom.status === 'Read' &&
                             'bg-blue-100/60 text-blue-500'
                           } ${
                             recom.status === 'Complete' &&
@@ -139,12 +139,11 @@ const MyRecommendation = () => {
                         >
                           <span
                             className={`h-1.5 w-1.5 rounded-full ${
-                              recom.status === 'Reading' && 'bg-yellow-500'
+                              recom.status === 'Unread' && 'bg-yellow-500'
                             } ${
-                              recom.status === 'In Progress' && 'bg-blue-500'
-                            } ${recom.status === 'Complete' && 'bg-green-500'} ${
-                              recom.status === 'Complete' && 'bg-green-500'
-                            } ${recom.status === 'Rejected' && 'bg-red-500'} `}
+                              recom.status === 'Read' && 'bg-blue-500'
+                            } ${recom.status === 'Complete' && 'bg-green-500'} 
+                             ${recom.status === 'Rejected' && 'bg-red-500'} `}
                           ></span>
                           <h2 className='text-sm font-normal '>{recom.status}</h2>
                         </div>
@@ -152,9 +151,9 @@ const MyRecommendation = () => {
                       <td className='px-4 py-4 text-sm whitespace-nowrap'>
                         {/* Complete Button */}
                         <button
-                          disabled={recom.status !== 'In Progress'}
+                          disabled={recom.status !== 'Read'}
                           onClick={() => handleStatus(recom._id, 'Complete')}
-                          title='Mark Complete'
+                          title='Mark Read'
                           className='text-gray-500 transition-colors duration-200   hover:text-red-500 focus:outline-none disabled:cursor-not-allowed'
                         >
                           <svg

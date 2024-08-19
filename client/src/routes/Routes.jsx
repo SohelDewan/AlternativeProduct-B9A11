@@ -83,8 +83,7 @@ const router = createBrowserRouter([
             <MyRecommendation></MyRecommendation>{" "}
           </PrivateRoute>
         ),
-        // loader: ({ params }) =>
-        //   fetch(`${import.meta.env.VITE_API_URL}/recommendation/${params?.id}`),
+        
       },
       {
         path: "/recommendation-me",
@@ -94,7 +93,7 @@ const router = createBrowserRouter([
             <RecommendationMe></RecommendationMe>{" "}
           </PrivateRoute>
         ),
-        loader: ({ params }) => fetch(`${import.meta.env.VITE_API_URL}/recommendations/${params.id}`)
+       
       },
     ],
   },
