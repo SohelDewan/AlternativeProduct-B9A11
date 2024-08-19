@@ -105,60 +105,8 @@ async function run() {
           projection: { queryTitle: 1, userInfo: 1, productImage: 1, datePosted:1 },
       };
   })
-   // Save a recommendation data in db
-   app.post('/recommendations', async (req, res) => {
-    const queryData = req.body
-    // console.log(queryData)
-    // return
-    const result = await recommendationCollection.insertOne(queryData)
-    res.send(result)
-  })
-
-  // Get all recommendations by email of a specific user from mongodb
-  app.get('/recommendations/:email', async (req, res) => {
-    const email = req.params.email
-    const query ={ email } 
-    const result = await recommendationCollection.find(query).toArray();
-    res.send(result);
-  })
-
-  // Get the recommendations by other user owner of the query/product for me from mongodb
-  app.get('/recommendation-me/:email', async (req, res) => {
-    const email = req.params.email
-    const query ={'userInfo.email': email } 
-    const result = await recommendationCollection.find(query).toArray();
-    res.send(result);
-  })
-   // Save a recommendation data in db
-   app.post('/recommendation-me', async (req, res) => {
-    const recommendationData = req.body
-
-    // check if its a duplicate request
-    const query = {
-      email: recommendationData.email,
-      productId: productData.productId,
-    }
-    const alreadyApplied = await recommendationCollection.findOne(query)
-    console.log(alreadyApplied)
-    if (alreadyApplied) {
-      return res
-        .status(400)
-        .send('You have already placed a bid on this job.')
-    }
-
-    const result = await recommendationCollection.insertOne(bidData)
-
-    // update recommendation count in jobs collection
-    const updateDoc = {
-      $inc: { recommendation_count: 1 },
-    }
-    const productQuery = { _id: new ObjectId(recommendationData.jobId) }
-    const updateRecommendationCount = await productCollection.updateOne(jobQuery, updateDoc)
-    console.log(updateRecommendationCount)
-    res.send(result)
-  })
-   // Save a product/query data in db
-   app.post('/product', async (req, res) => {
+  // Save a product/query data in db
+  app.post('/product', async (req, res) => {
     const productData = req.body
     // console.log(queryData)
     // return
@@ -198,6 +146,70 @@ async function run() {
         const result = await productCollection.updateOne(query, updateDoc, options)
         res.send(result)
       })
+
+   // Save a recommendation data in db
+   app.post('/recommendations', async (req, res) => {
+    const queryData = req.body
+    // console.log(queryData)
+    // return
+    const result = await recommendationCollection.insertOne(queryData)
+    res.send(result)
+  })
+
+   // Get all recommendations by email of a specific user from mongodb
+   app.get('/recommendations/:email',   async (req, res) => {
+    const email = req.params.email
+    const query ={ email } 
+    const result = await recommendationCollection.find(query).toArray();
+    res.send(result);
+  })
+
+  // Get all recommendations for me by other user owner of the query/product from mongodb
+  app.get('/recommendation-me/:email', async (req, res) => {
+    const email = req.params.email
+    const query = { 'userInfo.email' : email} 
+    const result = await recommendationCollection.find(query).toArray();
+    res.send(result);
+  })
+    // Update status of the recommendations
+    app.patch('/recommendation/:id', async (req, res) => {
+      const id = req.params.id
+      const status = req.body
+      const query = { _id: new ObjectId(id) }
+      const updateDoc = {
+        $set: status ,
+      }
+      const result = await recommendationCollection.updateOne(query, updateDoc)
+      res.send(result)
+    })
+   // Save a recommendation data in db
+   app.post('/recommendation', async (req, res) => {
+    const recommendationData = req.body    
+    // check if its a duplicate request
+    const query = {
+      email: recommendationData.email,
+      productId: recommendationData.productId,
+    }
+    const alreadyApplied = await recommendationCollection.findOne(query)
+    console.log(alreadyApplied)
+    if (alreadyApplied) {
+      return res
+        .status(400)
+        .send('You have already placed a query on this product.')
+    }
+    const result = await recommendationCollection.insertOne(recommendationData)
+
+    // update a recommendation count in products collection
+    const updateDoc = {
+      $inc: { recommendation_count: 1 },
+    }
+    const productQuery = { _id: new ObjectId(recommendationData.productId) }
+    const updateRecommendationCount = await productCollection.updateOne(productQuery, updateDoc)
+    console.log(updateRecommendationCount)
+    res.send(result)
+  })
+
+   
    
     // Send a ping to confirm a successful connection
     // await client.db("admin").command({ ping: 1 });
