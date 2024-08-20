@@ -1,65 +1,65 @@
-import { useEffect, useState } from "react";
-import ProductCard from "../pages/Products/ProductCard";
-import axios from "axios";
+import { useEffect, useState } from 'react'
+import JobCard from '../components/JobCard'
+import axios from 'axios'
 
-const Queries = () => {
-    const [products, setProducts] = useState([]);
-    // eslint-disable-next-line no-unused-vars
-    const [itemsPerPage, setItemsPerPage] = useState(4)
-    const [currentPage, setCurrentPage] = useState(1)
-    const [count, setCount] = useState(0)
-    const [filter, setFilter] = useState('')
-    const [sort, setSort] = useState('')
-    const [search, setSearch] = useState('')
-    const [searchText, setSearchText] = useState('')
+const AllJobs = () => {
+  const [itemsPerPage, setItemsPerPage] = useState(4)
+  const [currentPage, setCurrentPage] = useState(1)
+  const [count, setCount] = useState(0)
+  const [filter, setFilter] = useState('')
+  const [sort, setSort] = useState('')
+  const [search, setSearch] = useState('')
+  const [searchText, setSearchText] = useState('')
+  const [jobs, setJobs] = useState([])
+  useEffect(() => {
+    const getData = async () => {
+      const { data } = await axios(
+        `${
+          import.meta.env.VITE_API_URL
+        }/all-jobs?page=${currentPage}&size=${itemsPerPage}&filter=${filter}&sort=${sort}&search=${search}`
+      )
+      setJobs(data)
+    }
+    getData()
+  }, [currentPage, filter, itemsPerPage, search, sort])
+  useEffect(() => {
+    const getCount = async () => {
+      const { data } = await axios(
+        `${
+          import.meta.env.VITE_API_URL
+        }/jobs-count?filter=${filter}&search=${search}`
+      )
 
-    useEffect(() => {
-        fetch(`${import.meta.env.VITE_API_URL}/products?page=${currentPage}&size=${itemsPerPage}&filter=${filter}&sort=${sort}&search=${search}`)
-            // fetch('/data.json')
-            .then(res => res.json())
-            .then(data => {
-                console.log(data); 
-                setProducts(data);
-              });
-    }, [currentPage, filter, itemsPerPage, search, sort])
-    useEffect(() => {
-        const getCount = async () => {
-          const { data } = await axios(
-            `${
-              import.meta.env.VITE_API_URL
-            }/products-count?filter=${filter}&search=${search}`
-          )
-    
-          setCount(data.count)
-        }
-        getCount()
-      }, [filter, search])
-    
-    // console.log(count)
-    const numberOfPages = Math.ceil(count / itemsPerPage)
-    const pages = [...Array(numberOfPages).keys()].map(element => element + 1)
-  
-    //  handle pagination button
-    const handlePaginationButton = value => {
-      console.log(value)
-      setCurrentPage(value)
+      setCount(data.count)
     }
-    const handleReset = () => {
-      setFilter('')
-      setSort('')
-      setSearch('')
-      setSearchText('')
-    }
-  
-    const handleSearch = e => {
-      e.preventDefault()
-  
-      setSearch(searchText)
-    }
-    // console.log(search)
-    return (
-       
-        <div className='container px-6 py-10 mx-auto min-h-[calc(100vh-306px)] flex flex-col justify-between'>
+    getCount()
+  }, [filter, search])
+
+  console.log(count)
+  const numberOfPages = Math.ceil(count / itemsPerPage)
+  const pages = [...Array(numberOfPages).keys()].map(element => element + 1)
+
+  //  handle pagination button
+  const handlePaginationButton = value => {
+    console.log(value)
+    setCurrentPage(value)
+  }
+  const handleReset = () => {
+    setFilter('')
+    setSort('')
+    setSearch('')
+    setSearchText('')
+  }
+
+  const handleSearch = e => {
+    e.preventDefault()
+
+    setSearch(searchText)
+  }
+
+  console.log(search)
+  return (
+    <div className='container px-6 py-10 mx-auto min-h-[calc(100vh-306px)] flex flex-col justify-between'>
       <div>
         <div className='flex flex-col md:flex-row justify-center items-center gap-5 '>
           <div>
@@ -74,9 +74,9 @@ const Queries = () => {
               className='border p-4 rounded-lg'
             >
               <option value=''>Filter By Category</option>
-              <option value='Sumsang'>Sumsang</option>
-              <option value='LG'>LG</option>
-              <option value='Apple'>Apple</option>
+              <option value='Web Development'>Web Development</option>
+              <option value='Graphics Design'>Graphics Design</option>
+              <option value='Digital Marketing'>Digital Marketing</option>
             </select>
           </div>
 
@@ -88,8 +88,8 @@ const Queries = () => {
                 onChange={e => setSearchText(e.target.value)}
                 value={searchText}
                 name='search'
-                placeholder='Enter Product Title'
-                aria-label='Enter Product Title'
+                placeholder='Enter Job Title'
+                aria-label='Enter Job Title'
               />
 
               <button className='px-1 md:px-4 py-3 text-sm font-medium tracking-wider text-gray-100 uppercase transition-colors duration-300 transform bg-gray-700 rounded-md hover:bg-gray-600 focus:bg-gray-600 focus:outline-none'>
@@ -108,7 +108,7 @@ const Queries = () => {
               id='sort'
               className='border p-4 rounded-md'
             >
-              <option value=''>Sort By Posted Date</option>
+              <option value=''>Sort By Deadline</option>
               <option value='dsc'>Descending Order</option>
               <option value='asc'>Ascending Order</option>
             </select>
@@ -117,21 +117,10 @@ const Queries = () => {
             Reset
           </button>
         </div>
-    
-         <div className="mt-4">
-            <div className="text-center">
-                <h3 className="text-3xl font-bold text-[#538a48]">Products</h3>
-                <h2 className="text-5xl py-2">Queries Products Area</h2>
-                <p className="py-8 text-[#]">Substitute products offer consumers choices when making purchase decisions <br /> by providing equally good alternatives, thus increasing utility. </p>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {
-                    products.map(product => <ProductCard
-                        key={product._id}
-                        product={product}
-                    ></ProductCard>)
-                }
-            </div>
+        <div className='grid grid-cols-1 gap-8 mt-8 xl:mt-16 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'>
+          {jobs.map(job => (
+            <JobCard key={job._id} job={job} />
+          ))}
         </div>
       </div>
 
@@ -201,7 +190,7 @@ const Queries = () => {
         </button>
       </div>
     </div>
-    );
-};
+  )
+}
 
-export default Queries;
+export default AllJobs

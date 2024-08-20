@@ -7,6 +7,7 @@ const RecommendationMe = () => {
   const { user } = useAuth()
   const axiosSecure = useAxiosSecure()
   const queryClient = useQueryClient()
+  // below is code are for transtack query with useQuery function
   const { data: recommendations = [], isLoading } = useQuery({
     queryFn: () => getData(),
     queryKey: ['recommendations', user?.email],
@@ -51,7 +52,7 @@ const RecommendationMe = () => {
     await mutateAsync({ id, status })
   }
 
-  if (isLoading) return <p>Data is still loading......</p>
+  if (isLoading) return <p className='text-center mt-5'>Data is still loading......</p>
 
   return (
     <section className='container px-4 mx-auto pt-12'>

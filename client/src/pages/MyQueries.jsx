@@ -15,7 +15,9 @@ const MyQueries = () => {
   }, [user])
 
   const getData = async () => {
-    const { data } = await axiosSecure(`${import.meta.env.VITE_API_URL}/product/${user?.email}`)
+    const { data } = await axiosSecure(`${import.meta.env.VITE_API_URL}/product/${user?.email}`
+      , { withCredentials: true }
+    ) 
     setProducts(data)
   }
   // console.log(products)
