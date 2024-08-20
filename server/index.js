@@ -64,6 +64,7 @@ async function run() {
       // // jwt generate
       app.post('/jwt', async (req, res) => {
         const email = req.body
+        console.log(email);
         const token = jwt.sign(email, process.env.ACCESS_TOKEN_SECRET, {
           expiresIn: '60d',
         })
@@ -209,7 +210,19 @@ async function run() {
     res.send(result)
   })
 
-   
+    // Get all products data count from db
+    app.get('/products-count', async (req, res) => {
+      const filter = req.query.filter
+      const search = req.query.search
+      let query = {
+        productName: { $regex: search, $options: 'i' },
+      }
+      if (filter) query.category = filter
+      const count = await productCollection.countDocuments(query)
+
+      res.send({ count })
+    })
+
    
     // Send a ping to confirm a successful connection
     // await client.db("admin").command({ ping: 1 });
