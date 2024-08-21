@@ -36,8 +36,8 @@ const router = createBrowserRouter([
       {
         path: "/queries",
         element: <Queries />,
-        loader: () =>
-          fetch("https://b9a11-server-side-sohel-dewan.vercel.app/products"),
+        // loader: () =>
+        //   fetch("https://b9a11-server-side-sohel-dewan.vercel.app/products"),
       },
       {
         path: "/add-query",

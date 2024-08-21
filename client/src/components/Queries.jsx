@@ -4,8 +4,7 @@ import axios from "axios";
 
 const Queries = () => {
     const [products, setProducts] = useState([]);
-    // eslint-disable-next-line no-unused-vars
-    const [itemsPerPage, setItemsPerPage] = useState(4)
+    const [itemsPerPage, setItemsPerPage] = useState(3)
     const [currentPage, setCurrentPage] = useState(1)
     const [count, setCount] = useState(0)
     const [filter, setFilter] = useState('')
@@ -14,20 +13,17 @@ const Queries = () => {
     const [searchText, setSearchText] = useState('')
 
     useEffect(() => {
-        fetch(`${import.meta.env.VITE_API_URL}/products?page=${currentPage}&size=${itemsPerPage}&filter=${filter}&sort=${sort}&search=${search}`)
-            // fetch('/data.json')
+        fetch(`${import.meta.env.VITE_API_URL}/queries?page=${currentPage}&size=${itemsPerPage}&filter=${filter}&sort=${sort}&search=${search}`)
             .then(res => res.json())
             .then(data => {
                 console.log(data); 
                 setProducts(data);
               });
     }, [currentPage, filter, itemsPerPage, search, sort])
+
     useEffect(() => {
         const getCount = async () => {
-          const { data } = await axios(
-            `${
-              import.meta.env.VITE_API_URL
-            }/products-count?filter=${filter}&search=${search}`
+          const { data } = await axios(`${import.meta.env.VITE_API_URL}/products-count?filter=${filter}&search=${search}`
           )
     
           setCount(data.count)
@@ -69,12 +65,12 @@ const Queries = () => {
                 setCurrentPage(1)
               }}
               value={filter}
-              name='category'
-              id='category'
+              name='brandName'
+              id='brandName'
               className='border p-4 rounded-lg'
             >
-              <option value=''>Filter By Category</option>
-              <option value='Sumsang'>Sumsang</option>
+              <option value=''>Filter By Brand Name</option>
+              <option value='Samsung'>Samsung</option>
               <option value='LG'>LG</option>
               <option value='Apple'>Apple</option>
             </select>
@@ -141,7 +137,7 @@ const Queries = () => {
         <button
           disabled={currentPage === 1}
           onClick={() => handlePaginationButton(currentPage - 1)}
-          className='px-4 py-2 mx-1 text-gray-700 disabled:text-gray-500 capitalize bg-gray-200 rounded-md disabled:cursor-not-allowed disabled:hover:bg-gray-200 disabled:hover:text-gray-500 hover:bg-blue-500  hover:text-white'
+          className='px-4 py-2 mx-1 text-gray-700 disabled:text-gray-500 capitalize bg-gray-200 rounded-md disabled:cursor-not-allowed disabled:hover:bg-gray-200 disabled:hover:text-gray-500 hover:bg-[#14447F]  hover:text-white'
         >
           <div className='flex items-center -mx-1'>
             <svg
@@ -168,8 +164,8 @@ const Queries = () => {
             onClick={() => handlePaginationButton(btnNum)}
             key={btnNum}
             className={`hidden ${
-              currentPage === btnNum ? 'bg-blue-500 text-white' : ''
-            } px-4 py-2 mx-1 transition-colors duration-300 transform  rounded-md sm:inline hover:bg-blue-500  hover:text-white`}
+              currentPage === btnNum ? 'bg-[#538a48] text-white' : ''
+            } px-4 py-2 mx-1 transition-colors duration-300 transform  rounded-md sm:inline hover:bg-[#14447F]  hover:text-white`}
           >
             {btnNum}
           </button>
@@ -178,7 +174,7 @@ const Queries = () => {
         <button
           disabled={currentPage === numberOfPages}
           onClick={() => handlePaginationButton(currentPage + 1)}
-          className='px-4 py-2 mx-1 text-gray-700 transition-colors duration-300 transform bg-gray-200 rounded-md hover:bg-blue-500 disabled:hover:bg-gray-200 disabled:hover:text-gray-500 hover:text-white disabled:cursor-not-allowed disabled:text-gray-500'
+          className='px-4 py-2 mx-1 text-gray-700 transition-colors duration-300 transform bg-gray-200 rounded-md hover:bg-[#14447F] disabled:hover:bg-gray-200 disabled:hover:text-gray-500 hover:text-white disabled:cursor-not-allowed disabled:text-gray-500'
         >
           <div className='flex items-center -mx-1'>
             <span className='mx-1'>Next</span>
