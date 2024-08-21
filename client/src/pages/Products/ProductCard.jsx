@@ -11,6 +11,7 @@ const ProductCard = ({ product }) => {
     productImage,
     queryTitle,
     userInfo,
+    recommendation_count,
   } = product;
 
   console.log(product)
@@ -34,7 +35,7 @@ const ProductCard = ({ product }) => {
             src={userInfo.thumbnailImage}
           />
         </p>
-
+          <p>Recommendation_count: {recommendation_count}</p>
         <div className="card-actions w-full">
           <Link to={`/products/${_id}`}>
             <button className="btn w-full px-36 bg-[#538a48] text-white rounded-lg hover:bg-[#14447F]">

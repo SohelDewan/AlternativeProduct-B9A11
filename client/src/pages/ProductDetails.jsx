@@ -37,7 +37,7 @@ const ProductDetails = () => {
       alterationReason,
       datePosted,
       email,
-      owner_email:userInfo.email,
+      owner_email: userInfo.email,
       status,
       userInfo,
     };
@@ -55,7 +55,7 @@ const ProductDetails = () => {
       toast.success(err.response.data);
       e.target.reset();
     }
-  }
+  };
 
   return (
     <div className="flex flex-col justify-around gap-5 bg-[#538a48d6] p-2  items-center min-h-[calc(100vh-306px)] md:max-w-screen-xl mx-auto ">

@@ -35,7 +35,7 @@ const AddQuery = () => {
         email,
         thumbnailImage: user?.photoURL,
       },
-      recommendationCount: 0,
+      recommendation_count: 0,
     }
     try {
       const { data } = await axios.post(`${import.meta.env.VITE_API_URL}/product`,

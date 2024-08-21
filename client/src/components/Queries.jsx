@@ -4,6 +4,7 @@ import axios from "axios";
 
 const Queries = () => {
     const [products, setProducts] = useState([]);
+    // eslint-disable-next-line no-unused-vars
     const [itemsPerPage, setItemsPerPage] = useState(3)
     const [currentPage, setCurrentPage] = useState(1)
     const [count, setCount] = useState(0)
@@ -48,8 +49,7 @@ const Queries = () => {
     }
   
     const handleSearch = e => {
-      e.preventDefault()
-  
+      e.preventDefault()  
       setSearch(searchText)
     }
     // console.log(search)
@@ -88,7 +88,7 @@ const Queries = () => {
                 aria-label='Enter Product Title'
               />
 
-              <button className='px-1 md:px-4 py-3 text-sm font-medium tracking-wider text-gray-100 uppercase transition-colors duration-300 transform bg-gray-700 rounded-md hover:bg-gray-600 focus:bg-gray-600 focus:outline-none'>
+              <button className='px-1 md:px-4 py-3 text-sm font-medium tracking-wider text-gray-100 uppercase transition-colors duration-300 transform bg-[#538a48] rounded-md hover:bg-[#14447F] focus:bg-gray-600 focus:outline-none'>
                 Search
               </button>
             </div>
